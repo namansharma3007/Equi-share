@@ -1,0 +1,122 @@
+// schema.prisma
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id       String  @id @default(uuid())
+  name     String
+  username String  @unique
+  email    String  @unique
+  password String
+  image    String?
+  gender   Gender
+
+  expenses   Expense[] @relation("ExpenseToUser")
+  group      Group[]   @relation("GroupsPartOf")
+  splits     Split[]   @relation("UserSplit")
+  groupAdmin Group[]   @relation("GroupAdmin")
+  expenseCreator Expense[] @relation("ExpenseCreator")
+
+  groupRequests GroupRequest[] @relation("GroupRequestTo")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  @@index([username])
+  @@index([email])
+}
+
+model Group {
+  id          String  @id @default(uuid())
+  name        String
+  description String?
+
+  groupAdminId String
+
+  groupAdmin User @relation("GroupAdmin", fields: [groupAdminId], references: [id], onDelete: Cascade)
+
+  groupRequests GroupRequest[] @relation("GroupRequest")
+
+  members  User[]    @relation("GroupsPartOf")
+  expenses Expense[] @relation("ExpenseToGroup")
+  splits   Split[]   @relation("SplitToGroup")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+}
+
+model GroupRequest {
+  id String @id @default(uuid())
+
+  groupId String
+  toId    String
+
+  group  Group @relation("GroupRequest", fields: [groupId], references: [id], onDelete: Cascade)
+  toUser User  @relation("GroupRequestTo", fields: [toId], references: [id], onDelete: Cascade)
+
+  status RequestStatus
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  @@unique([groupId, toId])
+  @@index([groupId])
+  @@index([toId])
+}
+
+model Expense {
+  id             String   @id @default(uuid())
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @default(now()) @updatedAt
+  name           String
+  amount         Decimal
+  groupId        String
+  paidByUser     String
+  expenseCreatorId String
+  cleared        Boolean  @default(false)
+  group          Group    @relation("ExpenseToGroup", fields: [groupId], references: [id], onDelete: Cascade)
+  payerUser      User     @relation("ExpenseToUser", fields: [paidByUser], references: [id], onDelete: Cascade)
+  expenseCreator User     @relation("ExpenseCreator", fields: [expenseCreatorId], references: [id], onDelete: Cascade)
+  splits         Split[]  @relation("ExpenseSplit")
+
+  @@unique([groupId, id])
+  @@index([groupId])
+  @@index([paidByUser])
+}
+
+model Split {
+  id         String  @id @default(uuid())
+  amountOwed Decimal
+  expenseId  String
+  userId     String
+  groupId    String
+  cleared    Boolean @default(false)
+
+  group   Group   @relation("SplitToGroup", fields: [groupId], references: [id], onDelete: Cascade)
+  expense Expense @relation("ExpenseSplit", fields: [expenseId], references: [id], onDelete: Cascade)
+  user    User    @relation("UserSplit", fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  @@unique([expenseId, userId])
+  @@index([expenseId])
+  @@index([userId])
+}
+
+enum Gender {
+  MALE
+  FEMALE
+}
+
+enum RequestStatus {
+  PENDING
+  ACCEPTED
+  REJECTED
+}
