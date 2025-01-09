@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/lib/db";
-import { decodeToken } from "@/lib/auth";
 import { JwtPayload } from "jsonwebtoken";
 
 export async function GET(
@@ -43,7 +42,8 @@ export async function GET(
         members: {
           select: {
             id: true,
-            name: true,
+            firstName: true,
+            lastName: true,
             username: true,
             gender: true,
             image: true,

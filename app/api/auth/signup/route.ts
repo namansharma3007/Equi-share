@@ -77,12 +77,12 @@ export async function POST(req: NextRequest) {
         { status: 400 }
       );
     }
-    const name = lastName ? firstName + " " + lastName : firstName;
 
     const newHashedPassword = await hashPassword(password);
     await prisma.user.create({
       data: {
-        name: name,
+        firstName: firstName,
+        lastName: lastName,
         username,
         email,
         password: newHashedPassword,

@@ -66,7 +66,7 @@ export default function Dashboard() {
           transition={{ delay: 0.2 }}
           className="text-3xl font-bold text-purple-800 mb-6"
         >
-          {setGreeting()}, {userData?.name}!
+          {setGreeting()}, {userData?.firstName + " " + userData?.lastName}
         </motion.h1>
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -139,7 +139,7 @@ export default function Dashboard() {
                                 year: "numeric",
                               })})</p>
                               <p className="text-sm text-gray-600">
-                                {expense.payerUser.name} (${expense.amount})
+                                @{expense.payerUser.firstName + " " + expense.payerUser.lastName} (${expense.amount})
                               </p>
                             </div>
                             {expense.paidByUser === user ? (

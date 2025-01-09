@@ -21,7 +21,8 @@ export async function GET(req: NextRequest) {
       where: { id: userId },
       select: {
         id: true,
-        name: true,
+        firstName: true,
+        lastName: true,
         group: {
           select: {
             id: true,
@@ -31,7 +32,8 @@ export async function GET(req: NextRequest) {
             groupAdminId: true,
             members: {
               select: {
-                name: true,
+                firstName: true,
+                lastName: true,
               },
             },
           },

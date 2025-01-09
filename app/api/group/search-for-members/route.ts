@@ -17,7 +17,13 @@ export async function POST(req: NextRequest) {
           {
             OR: [
               {
-                name: {
+                firstName: {
+                  contains: searchTerm,
+                  mode: "insensitive",
+                },
+              },
+              {
+                lastName: {
                   contains: searchTerm,
                   mode: "insensitive",
                 },

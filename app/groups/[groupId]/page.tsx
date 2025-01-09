@@ -710,8 +710,8 @@ export default function GroupExpensePage() {
                     {groupMembers &&
                       groupMembers.map((member) => (
                         <Avatar key={member.id}>
-                          <AvatarImage src={member.image} alt={member.name} />
-                          <AvatarFallback>{member.name}</AvatarFallback>
+                          <AvatarImage src={member.image} alt={member.username} />
+                          <AvatarFallback>{member.username}</AvatarFallback>
                         </Avatar>
                       ))}
                   </div>
@@ -782,7 +782,7 @@ export default function GroupExpensePage() {
                               })})
                             </span>
                             <span className="text-sm text-gray-600">
-                              {expense.payerUser.name}{" "}
+                              {expense.payerUser.username}{" "}
                               (${expense.amount})
                             </span>
                           </CardTitle>

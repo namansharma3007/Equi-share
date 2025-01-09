@@ -6,7 +6,7 @@ export async function POST(req: NextRequest) {
   try {
     const userId = req.headers.get("userId");
 
-    const data = await prisma.user.findMany();
+    const data = await prisma.user.deleteMany();
 
     return NextResponse.json({ message: "Task completed successfully", data }, { status: 200 });
    

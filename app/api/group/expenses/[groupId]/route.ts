@@ -44,7 +44,8 @@ export async function GET(
         payerUser: {
           select: {
             id: true,
-            name: true,
+            firstName: true,
+            lastName: true,
             username: true,
             gender: true,
             image: true,
@@ -55,7 +56,8 @@ export async function GET(
             user: {
               select: {
                 id: true,
-                name: true,
+                firstName: true,
+                lastName: true,
                 username: true,
                 gender: true,
                 image: true,
@@ -66,7 +68,10 @@ export async function GET(
       },
     });
 
-    return NextResponse.json({message: "Expenses fetched successfully", expenses: groupExpense}, { status: 200 });
+    return NextResponse.json(
+      { message: "Expenses fetched successfully", expenses: groupExpense },
+      { status: 200 }
+    );
   } catch (error) {
     console.log("Error fetching group expenses:", error);
     return NextResponse.json(

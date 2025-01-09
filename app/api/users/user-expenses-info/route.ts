@@ -18,7 +18,8 @@ export async function GET(req: NextRequest) {
       },
       select: {
         id: true,
-        name: true,
+        firstName: true,
+        lastName: true,
         username: true,
         email: true,
         image: true,
@@ -38,7 +39,9 @@ export async function GET(req: NextRequest) {
                 payerUser: {
                   select: {
                     id: true,
-                    name: true,
+                    firstName: true,
+                    lastName: true,
+                    username: true,
                     email: true,
                     image: true,
                     gender: true,
@@ -54,7 +57,9 @@ export async function GET(req: NextRequest) {
                     user: {
                       select: {
                         id: true,
-                        name: true,
+                        firstName: true,
+                        lastName: true,
+                        username: true,
                         email: true,
                         image: true,
                         gender: true,

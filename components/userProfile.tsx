@@ -9,11 +9,11 @@ export default function UserProfile({ userData }: { userData: User | null }) {
       <div className="w-full flex flex-col items-center space-y-4">
         <div className="flex flex-col justify-center items-center space-y-2">
           <Avatar className="w-28 h-28">
-            <AvatarImage src={userData?.image} alt={userData?.name} />
-            <AvatarFallback>{userData?.name}</AvatarFallback>
+            <AvatarImage src={userData?.image} alt={userData?.username} />
+            <AvatarFallback>{userData?.username}</AvatarFallback>
           </Avatar>
           <h1 className="text-2xl font-bold text-gray-700">
-            {userData?.name}
+            {userData?.firstName + " " + userData?.lastName}
           </h1>
         </div>
 

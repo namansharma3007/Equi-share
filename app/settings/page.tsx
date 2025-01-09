@@ -133,7 +133,7 @@ export default function ProfilePage() {
             </TabsContent>
 
             <TabsContent value="edit-profile" className="space-y-4 mt-4">
-              <EditProfile />
+              <EditProfile userData={userData} user={user} token={token}/>
             </TabsContent>
           </Tabs>
         </motion.div>

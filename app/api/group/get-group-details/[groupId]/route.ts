@@ -45,7 +45,8 @@ export async function GET(
         groupAdmin: {
           select: {
             id: true,
-            name: true,
+            firstName: true,
+            lastName: true,
             username: true,
             image: true,
           },
@@ -53,7 +54,8 @@ export async function GET(
         members: {
           select: {
             id: true,
-            name: true,
+            firstName: true,
+            lastName: true,
             username: true,
             gender: true,
           },

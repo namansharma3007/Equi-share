@@ -26,7 +26,8 @@ export async function GET(req: NextRequest) {
                 createdAt: true,
                 members: {
                   select: {
-                    name: true,
+                    firstName: true,
+                    lastName: true,
                   },
                 },
               },

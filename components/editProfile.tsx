@@ -1,12 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import {
-  Card,
-  CardContent,
-} from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import {
   Select,
   SelectContent,
@@ -25,8 +22,23 @@ type FormData = {
   email: string;
   gender: string;
 };
+type PlaceholderValues = {
+  firstName: string;
+  lastName: string;
+  username: string;
+  email: string;
+  gender: string;
+};
 
-export default function EditProfile() {
+export default function EditProfile({
+  userData,
+  user,
+  token,
+}: {
+  userData: User | null;
+  user: string;
+  token: boolean;
+}) {
   const router = useRouter();
 
   const [formData, setFormData] = useState<FormData>({
@@ -36,6 +48,28 @@ export default function EditProfile() {
     email: "",
     gender: "",
   });
+
+  const [placeholderValues, setPlaceholderValues] = useState<PlaceholderValues>(
+    {
+      firstName: "",
+      lastName: "",
+      username: "",
+      email: "",
+      gender: "",
+    }
+  );
+
+  useEffect(() => {
+    if (userData && token && user) {
+      setPlaceholderValues({
+        firstName: userData.firstName || "",
+        lastName: userData.lastName || "",
+        username: userData.username || "",
+        email: userData.email || "",
+        gender: String(userData.gender) || "",
+      });
+    }
+  }, [userData, user, token]);
 
   const [error, setError] = useState<string | null>(null);
 
@@ -50,27 +84,53 @@ export default function EditProfile() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log(formData);
+    try {
+      const response = await fetch('/api/users/edit-profile', {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData), 
+      })
+      const data = await response.json();
+      if(!response.ok){
+        setError(data.message);
+        return;
+      }
+      toast({
+        title: "Profile updated successfully!",
+        description: "Please refresh your page",
+        duration: 2000,
+      })
+    } catch (error) {
+      const errorMessage =
+        error instanceof Error ? error.message : "An unexpected error occurred";
+      toast({
+        title: "Internal server error, please try again later!",
+        variant: "destructive",
+        duration: 2000,
+      });
+    }
   };
 
   return (
     <Card className="w-full max-w-md bg-white/90 backdrop-blur-sm mx-auto">
-      <CardContent className="pt-8">
+      <CardContent>
         {error && (
-          <div className="flex w-full items-center justify-center bg-red-500 p-2 rounded-md mb-2">
+          <div className="flex w-full items-center justify-center bg-red-500 p-2 rounded-md my-2">
             <p className="text-gray-100 text-sm font-medium text-center">
               {error}
             </p>
           </div>
         )}
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-4 mt-1">
           <div className="space-y-1">
             <Label htmlFor="firstName">First Name</Label>
             <Input
               id="firstName"
               name="firstName"
               type="text"
-              placeholder="John"
+              placeholder={placeholderValues.firstName}
               value={formData.firstName}
               onChange={handleInputChange}
             />
@@ -81,7 +141,7 @@ export default function EditProfile() {
               id="lastName"
               name="lastName"
               type="text"
-              placeholder="Doe"
+              placeholder={placeholderValues.lastName}
               value={formData.lastName}
               onChange={handleInputChange}
             />
@@ -92,7 +152,7 @@ export default function EditProfile() {
               id="username"
               name="username"
               type="text"
-              placeholder="johndoe123"
+              placeholder={placeholderValues.username}
               value={formData.username}
               onChange={handleInputChange}
             />
@@ -101,7 +161,7 @@ export default function EditProfile() {
             <Label htmlFor="gender">Gender</Label>
             <Select onValueChange={handleSelectChange} value={formData.gender}>
               <SelectTrigger id="gender">
-                <SelectValue placeholder="Select your gender" />
+                <SelectValue placeholder={placeholderValues.gender} />
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="MALE">Male</SelectItem>
@@ -115,7 +175,7 @@ export default function EditProfile() {
               id="email"
               name="email"
               type="email"
-              placeholder="m@example.com"
+              placeholder={placeholderValues.email}
               value={formData.email}
               onChange={handleInputChange}
             />
