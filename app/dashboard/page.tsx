@@ -80,23 +80,31 @@ export default function Dashboard() {
                 <div>
                   <p className="text-sm">You owe</p>
                   <p className="text-2xl font-bold">${
-                    userData?.group.reduce((total, group) => {
-                      return total + group.expenses.reduce((sum, expense) => {
-                        const split = expense.splits.find(split => split.userId === user);
-                        return split ? sum + parseFloat(split.amountOwed) : sum;
+                    userData?.group.reduce((total, group)=> {
+                      const expenses = group.expenses.filter(expense => expense.paidByUser !== user && expense.splits.some(split => split.userId === user));
+                      const splits = expenses.map((expense) => {
+                        const splits = expense.splits.filter((split: Split) => split.userId === user);
+                        return splits;
+                      });
+                      return total + splits.reduce((sum, split) => {
+                        return sum + split.reduce((splitSum, split) => {
+                          return splitSum + parseFloat(split.amountOwed ?? 0);
+                        }, 0);
                       }, 0);
-                    }, 0).toFixed(2)
+                    }, 0)
                   }</p>
                 </div>
                 <div>
                   <p className="text-sm">You are owed</p>
-                  <p className="text-2xl font-bold">${
-                    userData?.group.reduce((total, group) => {
-                      return total + group.expenses.reduce((sum, expense) => {
-                        return expense.paidByUser === user ? sum + parseFloat(expense.amount) : sum;
+                  <p className="text-2xl font-bold">$
+                    {userData?.group.reduce((total, group)=> {
+                      const expenses = group.expenses.filter(expense => expense.paidByUser === user);
+                      return total + expenses.reduce((expenseSum, expense) => {
+                        return expenseSum + expense.splits.reduce((sum, split) => {
+                          return sum + (split.userId !== user ? parseFloat(split.amountOwed) : 0);
+                        }, 0);
                       }, 0);
-                    }, 0).toFixed(2)
-                  }</p>
+                    }, 0)}</p>
                 </div>
               </div>
             </CardContent>
@@ -134,15 +142,30 @@ export default function Dashboard() {
                                 {expense.payerUser.name} (${expense.amount})
                               </p>
                             </div>
-                            <p
-                              className={`font-bold ${
-                                expense.paidByUser === user
-                                  ? "text-red-600"
-                                  : "text-green-600"
-                              }`}
-                            >
-                              {expense.paidByUser === user ? "-" : "+"}${expense.amount}
-                            </p>
+                            {expense.paidByUser === user ? (
+                              <p className="text-green-600 font-semibold">
+                                +$
+                                {expense.splits.reduce(
+                                  (sum: number, split: Split) =>
+                                    sum +
+                                    (split.userId !== user
+                                      ? parseFloat(split.amountOwed)
+                                      : 0),
+                                  0
+                                )}
+                              </p>
+                            ) : (
+                              <p className="text-red-600 font-semibold">
+                                {(() => {
+                                  const amountOwed = expense.splits.find(
+                                    (split) => split.userId === user
+                                  )?.amountOwed;
+                                  return amountOwed
+                                    ? `-$${amountOwed}`
+                                    : amountOwed;
+                                })()}
+                              </p>
+                            )}
                           </CardContent>
                         </Card>
                       ))
