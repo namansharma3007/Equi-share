@@ -8,9 +8,7 @@ import { toast } from "@/hooks/use-toast";
 import LoadingPage from "@/components/loadingPage";
 
 export default function Dashboard() {
-  const [greeting, setGreeting] = useState<string>("");
   const { user, token } = useUserContext();
-  const [hour, setHour] = useState<number>(new Date().getHours());
 
   const [userData, setUserData] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -50,11 +48,13 @@ export default function Dashboard() {
     getUserData();
   }, [user, token]);
 
-  useEffect(() => {
-    if (hour < 12) setGreeting("Good morning");
-    else if (hour < 18) setGreeting("Good afternoon");
-    else setGreeting("Good evening");
-  }, [hour]);
+
+  function setGreeting(){
+    const hour = new Date().getHours();
+    if (hour < 12) return "Good morning"
+    else if (hour < 18) return "Good afternoon";
+    else return "Good evening";
+  }
 
   if (isLoading) return <LoadingPage />;
   return (
@@ -66,7 +66,7 @@ export default function Dashboard() {
           transition={{ delay: 0.2 }}
           className="text-3xl font-bold text-purple-800 mb-6"
         >
-          {greeting}, {userData?.name}!
+          {setGreeting()}, {userData?.name}!
         </motion.h1>
         <motion.div
           initial={{ opacity: 0, y: 20 }}
