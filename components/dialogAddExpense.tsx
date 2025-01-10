@@ -126,7 +126,7 @@ export default function DialogIsAdingExpense({
                         if (member.id !== user) {
                           return (
                             <SelectItem key={member.id} value={member.id}>
-                              {member.name}
+                              {member.firstName + " " + member.lastName}
                             </SelectItem>
                           );
                         }
@@ -183,7 +183,7 @@ export default function DialogIsAdingExpense({
                                   target: {
                                     name: "splits",
                                     value: member.id,
-                                    userName: member.name,
+                                    userName: member.firstName + " " + member.lastName,
                                     checked: checked,
                                   },
                                 } as unknown as ChangeEvent<HTMLInputElement>; // Assert type as ChangeEvent<HTMLInputElement>
@@ -192,7 +192,7 @@ export default function DialogIsAdingExpense({
                               }}
                             />
                             <Label htmlFor={member.id}>
-                              {member.name}
+                              {member.firstName + " " + member.lastName}
                             </Label>
                           </div>
                         );

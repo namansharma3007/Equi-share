@@ -32,11 +32,20 @@ export function DisplayIndividualExpense({
   dialogExpenseOpen: boolean;
   setDialogExpenseOpen: Dispatch<SetStateAction<boolean>>;
   user: string;
-  handleSplitClearance: ({split, expense}: {split: Split | null, expense: Expense | null}) => void;
+  handleSplitClearance: ({
+    split,
+    expense,
+  }: {
+    split: Split | null;
+    expense: Expense | null;
+  }) => void;
 }) {
   const [isOpen, setIsOpen] = useState(false);
-  const [clearingSplit, setClearingSplit] = useState<{ split: Split | null, expense: Expense | null}>({ split: null, expense: null });
- 
+  const [clearingSplit, setClearingSplit] = useState<{
+    split: Split | null;
+    expense: Expense | null;
+  }>({ split: null, expense: null });
+
   function setClearingSplitValue(split: Split, expense: Expense) {
     setClearingSplit({ split, expense });
     setIsOpen(true);
@@ -48,8 +57,10 @@ export function DisplayIndividualExpense({
       <Dialog open={dialogExpenseOpen} onOpenChange={setDialogExpenseOpen}>
         <DialogContent className="pt-2 flex flex-col">
           <DialogTitle>
-            {displayIndividualExpense.payerUser.name} ${" "}
-            {displayIndividualExpense.amount}
+            {displayIndividualExpense.payerUser.firstName +
+              " " +
+              displayIndividualExpense.payerUser.lastName}
+            $ {displayIndividualExpense.amount}
           </DialogTitle>
           <DialogDescription>{displayIndividualExpense.name}</DialogDescription>
           <div className="flex flex-col gap-2">
@@ -66,15 +77,11 @@ export function DisplayIndividualExpense({
                   }`}
                 >
                   {split.userId === user ? (
-                    <span className="text-sm">
-                      You{": $"}
-                      {split.amountOwed}
-                    </span>
+                    <span className="text-sm">You (${split.amountOwed})</span>
                   ) : (
                     <span className="text-sm">
-                      {split.user.name}
-                      {": $"}
-                      {split.amountOwed}
+                      {split.user.firstName + " " + split.user.lastName} (
+                      {split.amountOwed})
                     </span>
                   )}
                 </div>
@@ -116,7 +123,13 @@ function AlertSplitCleared({
   isOpen: boolean;
   setIsOpen: Dispatch<SetStateAction<boolean>>;
   clearingSplit: { split: Split | null; expense: Expense | null };
-  handleSplitClearance: ({split, expense}: {split: Split | null, expense: Expense | null}) => void;
+  handleSplitClearance: ({
+    split,
+    expense,
+  }: {
+    split: Split | null;
+    expense: Expense | null;
+  }) => void;
 }) {
   return (
     <AlertDialog open={isOpen} onOpenChange={setIsOpen}>

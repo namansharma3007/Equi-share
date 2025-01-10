@@ -14,7 +14,7 @@ export async function POST(req: NextRequest) {
     const hashedOtp = await bcrypt.hash(otp, 8);
 
     const { data, error } = await resend.emails.send({
-      from: `Acme <onboarding@resend.dev>`,
+      from: `naman@localhost.example.com`,
       to: [email],
       subject: "Your OTP for equi-share",
       react: EmailTemplate({ email, otp }),

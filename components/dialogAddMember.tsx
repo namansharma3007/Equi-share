@@ -77,12 +77,12 @@ export default function DialogIsAddingMember({
                   <CardContent className="p-4 flex items-center justify-between">
                     <div className="flex items-center space-x-4">
                       <Avatar>
-                        <AvatarImage src={result.image} alt={result.name} />
-                        <AvatarFallback>{result.name}</AvatarFallback>
+                        <AvatarImage src={result.image} alt={result.username} />
+                        <AvatarFallback>{result.firstName + " " + result.lastName}</AvatarFallback>
                       </Avatar>
                       <div>
                         <p className="font-semibold">
-                          {result.name}
+                          {result.firstName + " " + result.lastName}
                         </p>
                         <p className="text-sm text-gray-600">
                           @{result.username}

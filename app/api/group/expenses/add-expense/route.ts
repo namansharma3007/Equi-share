@@ -57,7 +57,8 @@ export async function POST(req: NextRequest) {
           payerUser: {
             select: {
               id: true,
-              name: true,
+              firstName: true,
+              lastName: true,
               username: true,
               gender: true,
               image: true,
@@ -86,7 +87,8 @@ export async function POST(req: NextRequest) {
           payerUser: {
             select: {
               id: true,
-              name: true,
+              firstName: true,
+              lastName: true,
               username: true,
               gender: true,
               image: true,
@@ -97,7 +99,8 @@ export async function POST(req: NextRequest) {
               user: {
                 select: {
                   id: true,
-                  name: true,
+                  firstName: true,
+                  lastName: true,
                   username: true,
                   gender: true,
                   image: true,

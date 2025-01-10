@@ -22,7 +22,7 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
     }).catch((error) => {
       setToken(false);
       setUserId("");
-      console.error("Error checking user session:", error);
+      console.log("Error checking user session:", error);
     });
   }, []);
 

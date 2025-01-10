@@ -318,7 +318,6 @@ export default function GroupExpensePage() {
 
   useEffect(() => {
     if (!expenses) return;
-    // applyFilter(expenses, filterValue);
     let filteredExpenses = expenses;
 
     if (filterValue === "return") {
@@ -333,11 +332,7 @@ export default function GroupExpensePage() {
       );
     }
     setDisplayExpenses(filteredExpenses);
-    // console.log(filterValue)
-    // console.log("filteredExpenses", filteredExpenses);
-    // console.log("filtered expenses expenses->", expenses);
   }, [filterValue, expenses, user]);
-
 
   const handleManualSplitAmountChange = (
     e: ChangeEvent<HTMLInputElement>,
@@ -364,7 +359,7 @@ export default function GroupExpensePage() {
     setDisplayAmount(
       newSplits.reduce((acc, split) => acc + (split.amount ?? 0), 0)
     );
-  };
+  }
 
   const sendGroupRequest = async (toId: string) => {
     if (!groupId || !toId) return;
@@ -400,7 +395,7 @@ export default function GroupExpensePage() {
         duration: 2000,
       });
     }
-  };
+  }
 
   const handleCancelRequest = async (toId: string) => {
     if (!groupId || !toId) return;
@@ -439,7 +434,7 @@ export default function GroupExpensePage() {
         duration: 2000,
       });
     }
-  };
+  }
 
   function handleAddExpenseChange(e: ChangeEvent<HTMLInputElement>) {
     const { name, value } = e.target;
@@ -473,15 +468,20 @@ export default function GroupExpensePage() {
       0
     );
     setDisplayAmount(total);
-  };
+  }
 
   const handleSelectChange = (value: string) => {
     setExpenseFormData((prev) => ({ ...prev, paidByUser: value }));
-  };
+  }
 
   const handleRadioChange = (value: string) => {
     setHowToSplit((prev) => (prev != value ? value : prev));
-  };
+  }
+
+  const openIndividualExpense = (expense: Expense) => {
+    setDisplayIndividualExpense(expense);
+    setDialogExpenseOpen(true);
+  }
 
   async function handleSubmitExpense(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -504,7 +504,7 @@ export default function GroupExpensePage() {
         });
         return;
       }
-      setExpenses((prev) =>  [...prev, data.newExpense]);
+      setExpenses((prev) => (prev ? [...prev, data.newExpense] : [data.newExpense]));
 
       setIsAddingExpenseOpen(false);
       setExpenseFormData({
@@ -632,10 +632,6 @@ export default function GroupExpensePage() {
     }
   }
 
-  function openIndividualExpense(expense: Expense) {
-    setDisplayIndividualExpense(expense);
-    setDialogExpenseOpen(true);
-  }
 
   if (isLoading) return <LoadingPage />;
   // else if (!accessAllowed) return <AccessDeniedPage navLink="/groups" />;
@@ -710,7 +706,10 @@ export default function GroupExpensePage() {
                     {groupMembers &&
                       groupMembers.map((member) => (
                         <Avatar key={member.id}>
-                          <AvatarImage src={member.image} alt={member.username} />
+                          <AvatarImage
+                            src={member.image}
+                            alt={member.username}
+                          />
                           <AvatarFallback>{member.username}</AvatarFallback>
                         </Avatar>
                       ))}
@@ -774,16 +773,19 @@ export default function GroupExpensePage() {
                         <div className="flex w-full justify-between">
                           <CardTitle className="flex justify-center flex-col">
                             <span className="text-md font-semibold">
-                              {expense.name}{" "}
-                              ({new Date(expense.createdAt).toLocaleDateString("en-GB", {
-                                day: "numeric",
-                                month: "short",
-                                year: "numeric",
-                              })})
+                              {expense.name} (
+                              {new Date(expense.createdAt).toLocaleDateString(
+                                "en-GB",
+                                {
+                                  day: "numeric",
+                                  month: "short",
+                                  year: "numeric",
+                                }
+                              )}
+                              )
                             </span>
                             <span className="text-sm text-gray-600">
-                              {expense.payerUser.username}{" "}
-                              (${expense.amount})
+                              {expense.payerUser.firstName + " " + expense.payerUser.lastName} (${expense.amount})
                             </span>
                           </CardTitle>
 
