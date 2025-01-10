@@ -85,3 +85,9 @@ interface UserContextType {
   setUserId: (userId: string) => void;
 }
 
+
+
+interface EmailTemplateProps {
+    email: string;
+    otp: string;
+}
