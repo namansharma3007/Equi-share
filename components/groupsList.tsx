@@ -65,7 +65,7 @@ export default function GroupsList({
   user: string | null;
 }) {
   return (
-    <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
+    <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger asChild>
           <Button className="w-full mb-6 bg-purple-600 text-white hover:bg-purple-700">

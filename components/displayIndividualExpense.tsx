@@ -14,6 +14,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
+import { motion } from "framer-motion";
 
 import { Dispatch, SetStateAction, useState } from "react";
 import { Button } from "./ui/button";
@@ -62,7 +63,7 @@ export function DisplayIndividualExpense({
             (${displayIndividualExpense.amount}) 
           </DialogTitle>
           <DialogDescription>{displayIndividualExpense.name}</DialogDescription>
-          <div className="flex flex-col gap-2">
+          <motion.div className="flex flex-col gap-2" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }}>
             {displayIndividualExpense.splits.map((split, index) => (
               <div
                 key={index}
@@ -99,7 +100,7 @@ export function DisplayIndividualExpense({
                 }
               </div>
             ))}
-          </div>
+          </motion.div>
         </DialogContent>
       </Dialog>
 
