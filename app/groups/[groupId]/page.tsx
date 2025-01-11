@@ -320,7 +320,7 @@ export default function GroupExpensePage() {
 
     const extractedSplits = expenseFormData.splits;
 
-    let newSplits = extractedSplits.map((split) =>
+    const newSplits = extractedSplits.map((split) =>
       split.id === id ? { ...split, amount: value ? newAmount : null } : split
     );
 
