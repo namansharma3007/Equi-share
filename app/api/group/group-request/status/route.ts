@@ -42,7 +42,8 @@ export async function PATCH(req: NextRequest) {
             members: {
               select: {
                 id: true,
-                name: true,
+                firstName: true,
+                lastName: true,
                 username: true,
                 gender: true,
               },
@@ -68,7 +69,7 @@ export async function PATCH(req: NextRequest) {
   } catch (error) {
     console.log("Error updating group request status:", error);
     return NextResponse.json(
-      { error: "Internal server Error" },
+      { message: "Internal server Error" },
       { status: 500 }
     );
   }

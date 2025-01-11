@@ -43,7 +43,7 @@ export async function POST(req: NextRequest) {
     });
     if (!user) {
       return NextResponse.json(
-        { error: "You are not part of this group" },
+        { message: "You are not part of this group" },
         { status: 400 }
       );
     }
@@ -73,7 +73,7 @@ export async function POST(req: NextRequest) {
   } catch (error) {
     console.log("Error sending group request:", error);
     return NextResponse.json(
-      { error: "Internal server Error" },
+      { message: "Internal server Error" },
       { status: 500 }
     );
   }

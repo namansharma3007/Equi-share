@@ -45,7 +45,7 @@ export async function POST(req: NextRequest) {
   } catch (error) {
     console.log("Error while searching for members: ", error);
     return NextResponse.json(
-      { error: "Internal server Error" },
+      { message: "Internal server Error" },
       { status: 500 }
     );
   }

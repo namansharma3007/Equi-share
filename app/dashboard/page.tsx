@@ -32,10 +32,6 @@ export default function Dashboard() {
         }
         setUserDataFull(data.userData);
       } catch (error) {
-        const errorMessage =
-          error instanceof Error
-            ? error.message
-            : "An unexpected error occurred";
         toast({
           title: "Internal server error!",
           description: "Please try again later",
@@ -67,7 +63,7 @@ export default function Dashboard() {
           className="text-3xl font-bold text-purple-800 mb-6"
         >
           {setGreeting()},{" "}
-          {userDataFull?.firstName + " " + userDataFull?.lastName}
+          {userDataFull?.firstName + " " + userDataFull?.lastName}!
         </motion.h1>
         <motion.div
           initial={{ opacity: 0, y: 20 }}

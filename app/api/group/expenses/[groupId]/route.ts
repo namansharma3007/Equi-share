@@ -19,19 +19,28 @@ export async function GET(
       );
     }
 
+    const group = await prisma.group.findFirst({
+      where: { id: groupId },
+    });
+
+    if (!group) {
+      return NextResponse.json({ error: "Group not found" }, { status: 404 });
+    }
+
     if (!userId) {
       return NextResponse.json(
         { message: "User ID is required" },
         { status: 400 }
       );
     }
+
     const groupPartOf = await prisma.user.findFirst({
       where: { AND: [{ id: userId }, { group: { some: { id: groupId } } }] },
     });
 
     if (!groupPartOf) {
       return NextResponse.json(
-        { error: "You are not part of this group" },
+        { message: "You are not part of this group" },
         { status: 400 }
       );
     }
@@ -75,7 +84,7 @@ export async function GET(
   } catch (error) {
     console.log("Error fetching group expenses:", error);
     return NextResponse.json(
-      { error: "Internal server Error" },
+      { message: "Internal server Error" },
       { status: 500 }
     );
   }

@@ -121,7 +121,7 @@ export async function POST(req: NextRequest) {
   } catch (error) {
     console.error("Error while creating expense: ", error);
     return NextResponse.json(
-      { error: "Internal server error" },
+      { message: "Internal server error" },
       { status: 500 }
     );
   }

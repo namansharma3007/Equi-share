@@ -10,12 +10,14 @@ export async function GET(
 
     const resolvedParams = await params;
     const { groupId } = resolvedParams;
+
     if (!groupId) {
       return NextResponse.json(
         { message: "Group ID is required" },
         { status: 400 }
       );
     }
+
     if (!userId) {
       return NextResponse.json(
         { message: "User ID is required" },
@@ -23,17 +25,27 @@ export async function GET(
       );
     }
 
+    const groupCheck = await prisma.group.findFirst({
+      where: { id: groupId },
+    });
+
+    if (!groupCheck) {
+      return NextResponse.json({ message: "Group not found" }, { status: 404 });
+    }
+
     const user = await prisma.user.findFirst({
       where: {
         AND: [{ id: userId }, { group: { some: { id: groupId } } }],
       },
     });
+
     if (!user) {
       return NextResponse.json(
-        { error: "You are not part of this group" },
+        { message: "You are not part of this group" },
         { status: 400 }
       );
     }
+
     const group = await prisma.group.findFirst({
       where: { id: groupId },
       select: {
@@ -71,7 +83,7 @@ export async function GET(
   } catch (error) {
     console.log("Error fetching group:", error);
     return NextResponse.json(
-      { error: "Internal server Error" },
+      { message: "Internal server Error" },
       { status: 500 }
     );
   }

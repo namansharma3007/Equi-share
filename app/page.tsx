@@ -21,31 +21,8 @@ import { handleLogoutFunction } from "@/lib/auth";
 import { toast } from "@/hooks/use-toast";
 
 export default function WelcomePage() {
-  const { user, token, setToken, setUserId, userData, setUserData } =
+  const { setToken, setUserId, userData, setUserData } =
     useUserContext();
-
-  // const [userData, setUserData] = useState<User | null>(null);
-
-  // useEffect(() => {
-  //   async function getUserData() {
-  //     try {
-  //       const response = await fetch(`/api/users/get-user/`, {
-  //         method: "GET",
-  //       });
-  //       const data = await response.json();
-  //       if (!response.ok) {
-  //         return;
-  //       }
-  //       setUserData(data);
-  //     } catch (error) {
-  //       const errorMessage =
-  //         error instanceof Error
-  //           ? error.message
-  //           : "An unexpected error occurred";
-  //     }
-  //   }
-  //   getUserData();
-  // }, [user, token]);
 
   const handleLogout = async () => {
     const result = await handleLogoutFunction();

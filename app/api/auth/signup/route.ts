@@ -102,7 +102,7 @@ export async function POST(req: NextRequest) {
     console.log("Error signingup user:", error);
 
     return NextResponse.json(
-      { error: "Internal server Error" },
+      { message: "Internal server Error" },
       { status: 500 }
     );
   }

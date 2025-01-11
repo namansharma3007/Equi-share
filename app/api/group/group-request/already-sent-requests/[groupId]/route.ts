@@ -1,7 +1,5 @@
 import { NextResponse, NextRequest } from "next/server";
 import prisma from "@/lib/db";
-import { decodeToken } from "@/lib/auth";
-import { JwtPayload } from "jsonwebtoken";
 
 export async function GET(
   req: NextRequest,
@@ -25,24 +23,29 @@ export async function GET(
         { status: 400 }
       );
     }
+
+    const group = await prisma.group.findFirst({
+      where: { id: groupId },
+    });
+    
+    if (!group) {
+      return NextResponse.json({ error: "Group not found" }, { status: 404 });
+    }
+
     const user = await prisma.user.findFirst({
       where: {
         AND: [{ id: userId }, { group: { some: { id: groupId } } }],
       },
     });
+
     if (!user) {
       return NextResponse.json(
-        { error: "You are not part of this group" },
+        { message: "You are not part of this group" },
         { status: 400 }
       );
     }
 
-    const group = await prisma.group.findFirst({
-      where: { id: groupId },
-    });
-    if (!group) {
-      return NextResponse.json({ error: "Group not found" }, { status: 404 });
-    }
+
     const groupRequests = await prisma.groupRequest.findMany({
       where: {
         groupId: groupId,
@@ -54,7 +57,7 @@ export async function GET(
   } catch (error) {
     console.log("Error fetching group requests:", error);
     return NextResponse.json(
-      { error: "Internal server Error" },
+      { message: "Internal server Error" },
       { status: 500 }
     );
   }

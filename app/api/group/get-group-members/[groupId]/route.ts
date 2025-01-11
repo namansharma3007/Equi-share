@@ -30,12 +30,14 @@ export async function GET(
         AND: [{ id: userId }, { group: { some: { id: groupId } } }],
       },
     });
+    
     if (!user) {
       return NextResponse.json(
-        { error: "You are not part of this group" },
+        { message: "You are not part of this group" },
         { status: 400 }
       );
     }
+
     const groupMembers = await prisma.group.findFirst({
       where: { id: groupId },
       select: {
@@ -60,7 +62,7 @@ export async function GET(
   } catch (error) {
     console.log("Error occured while fetching group members", error);
     return NextResponse.json(
-      { error: "Internal server error" },
+      { message: "Internal server error" },
       { status: 500 }
     );
   }

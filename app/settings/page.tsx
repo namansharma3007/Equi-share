@@ -109,7 +109,7 @@ export default function ProfilePage() {
         setError(data.message);
         return;
       }
-      console.log(data)
+
       toast({
         title: "Profile updated successfully!",
         description: "Reloading in 3 seconds",

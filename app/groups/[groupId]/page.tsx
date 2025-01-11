@@ -248,21 +248,12 @@ export default function GroupExpensePage() {
     }
     setIsLoading(true);
 
-    Promise.all([
+    Promise.allSettled([
       fetchGroupDetails(),
       fetchAlreadySentRequests(),
       fetchGroupMembers(),
       fetchGroupExpenses(),
-    ])
-      .catch((error) => {
-        toast({
-          title: "Internal server error!",
-          description: "Please try again later",
-          variant: "destructive",
-          duration: 2000,
-        });
-      })
-      .finally(() => setIsLoading(false));
+    ]).finally(() => setIsLoading(false));
   }, [groupId, token, user]);
 
   useEffect(() => {

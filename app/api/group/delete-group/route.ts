@@ -22,7 +22,7 @@ export async function DELETE(req: NextRequest) {
 
     if (group.groupAdminId !== userId) {
       return NextResponse.json(
-        { error: "Only group admin can delete this group" },
+        { message: "Only group admin can delete this group" },
         { status: 400 }
       );
     }
@@ -40,7 +40,7 @@ export async function DELETE(req: NextRequest) {
   } catch (error) {
     console.log("Error deleting group:", error);
     return NextResponse.json(
-      { error: "Internal server Error" },
+      { message: "Internal server Error" },
       { status: 500 }
     );
   }

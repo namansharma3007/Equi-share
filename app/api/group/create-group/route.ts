@@ -52,7 +52,13 @@ export async function POST(req: NextRequest) {
           groupAdminId: true,
           members: {
             select: {
-              name: true,
+              id: true,
+              firstName: true,
+              lastName: true,
+              username: true,
+              gender: true,
+              image: true,
+              createdAt: true,
             },
           },
         },
@@ -68,7 +74,7 @@ export async function POST(req: NextRequest) {
   } catch (error) {
     console.log("Error while creating group: ", error);
     return NextResponse.json(
-      { error: "Internal server error" },
+      { message: "Internal server error" },
       { status: 500 }
     );
   }
