@@ -2,10 +2,7 @@ import {
   Dialog,
   DialogContent,
   DialogDescription,
-  DialogFooter,
-  DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog";
 import {
   AlertDialog,
@@ -52,6 +49,7 @@ export function DisplayIndividualExpense({
   }
 
   if (!displayIndividualExpense) return null;
+
   return (
     <>
       <Dialog open={dialogExpenseOpen} onOpenChange={setDialogExpenseOpen}>
@@ -60,7 +58,8 @@ export function DisplayIndividualExpense({
             {displayIndividualExpense.payerUser.firstName +
               " " +
               displayIndividualExpense.payerUser.lastName}
-            $ {displayIndividualExpense.amount}
+              {" "}
+            (${displayIndividualExpense.amount}) 
           </DialogTitle>
           <DialogDescription>{displayIndividualExpense.name}</DialogDescription>
           <div className="flex flex-col gap-2">

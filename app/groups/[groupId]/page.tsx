@@ -42,7 +42,6 @@ import Link from "next/link";
 import { useUserContext } from "@/context/userProvider";
 import { toast } from "@/hooks/use-toast";
 import LoadingPage from "@/components/loadingPage";
-import AccessDeniedPage from "@/components/accessDenied";
 import DialogIsAddingExpense from "@/components/dialogAddExpense";
 import DialogIsAddingMember from "@/components/dialogAddMember";
 import { DisplayIndividualExpense } from "@/components/displayIndividualExpense";
@@ -63,7 +62,6 @@ export default function GroupExpensePage() {
   const [deleteAlertOpen, setDeleteAlertOpen] = useState<boolean>(false);
   const [deleteExpenseId, setDeleteExpenseId] = useState<string>("");
 
-  const [accessAllowed, setAccessAllowed] = useState<boolean>(true);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [groupDetails, setGroupDetails] = useState<Group | null>(null);
   const [groupMembers, setGroupMembers] = useState<User[]>([]);
@@ -595,7 +593,6 @@ export default function GroupExpensePage() {
   }
 
   if (isLoading) return <LoadingPage />;
-  // else if (!accessAllowed) return <AccessDeniedPage navLink="/groups" />;
   else
     return (
       <>

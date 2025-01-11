@@ -1,6 +1,4 @@
-"use client";
 
-import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
@@ -12,7 +10,6 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
-import { toast } from "@/hooks/use-toast";
 import { PlaceholderValues, FormData } from "@/app/settings/page";
 
 export default function EditProfile({

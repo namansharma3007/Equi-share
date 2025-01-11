@@ -10,7 +10,6 @@ import { useUserContext } from "@/context/userProvider";
 import { useRouter } from "next/navigation";
 import UserProfile from "@/components/userProfile";
 import EditProfile from "@/components/editProfile";
-import LoadingPage from "@/components/loadingPage";
 import { handleLogoutFunction } from "@/lib/auth";
 import { toast } from "@/hooks/use-toast";
 

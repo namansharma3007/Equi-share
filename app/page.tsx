@@ -1,18 +1,8 @@
 "use client";
 
-import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { DollarSign, Users, PieChart, ArrowRight, LogOut } from "lucide-react";
 import Link from "next/link";
@@ -21,8 +11,7 @@ import { handleLogoutFunction } from "@/lib/auth";
 import { toast } from "@/hooks/use-toast";
 
 export default function WelcomePage() {
-  const { setToken, setUserId, userData, setUserData } =
-    useUserContext();
+  const { setToken, setUserId, userData, setUserData } = useUserContext();
 
   const handleLogout = async () => {
     const result = await handleLogoutFunction();
@@ -43,6 +32,26 @@ export default function WelcomePage() {
       });
     }
   };
+
+  const cardInfo = [
+    {
+      icon: DollarSign,
+      title: "Easy Splitting",
+      description: "Divide expenses fairly among friends with just a few taps.",
+    },
+    {
+      icon: Users,
+      title: "Group Management",
+      description:
+        "Create and manage multiple groups for different occasions or roommates.",
+    },
+    {
+      icon: PieChart,
+      title: "Expense Tracking",
+      description:
+        "Get a clear overview of who owes what with detailed reports and summaries.",
+    },
+  ];
 
   return (
     <div className="min-h-screen bg-purple-200 flex flex-col justify-between">
@@ -104,26 +113,7 @@ export default function WelcomePage() {
         </motion.div>
 
         <div className="grid gap-8 md:grid-cols-3 mb-12">
-          {[
-            {
-              icon: DollarSign,
-              title: "Easy Splitting",
-              description:
-                "Divide expenses fairly among friends with just a few taps.",
-            },
-            {
-              icon: Users,
-              title: "Group Management",
-              description:
-                "Create and manage multiple groups for different occasions or roommates.",
-            },
-            {
-              icon: PieChart,
-              title: "Expense Tracking",
-              description:
-                "Get a clear overview of who owes what with detailed reports and summaries.",
-            },
-          ].map((feature, index) => (
+          {cardInfo.map((feature, index) => (
             <motion.div
               key={index}
               initial={{ opacity: 0, y: 20 }}
