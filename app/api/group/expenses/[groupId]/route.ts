@@ -3,8 +3,8 @@ import prisma from "@/lib/db";
 
 export async function GET(
   req: NextRequest,
-  { params }: { params: { groupId: string } }
-) {
+  { params }: { params: Promise<{ groupId: string }> }
+): Promise<NextResponse> {
   try {
     const userId = req.headers.get("userId");
 

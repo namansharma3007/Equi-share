@@ -3,8 +3,8 @@ import prisma from "@/lib/db";
 
 export async function GET(
   req: NextRequest,
-  { params }: { params: { groupId: string } }
-) {
+  { params }: { params: Promise<{ groupId: string }> }
+): Promise<NextResponse> {
   try {
     const userId = req.headers.get("userId");
 
@@ -27,7 +27,7 @@ export async function GET(
     const group = await prisma.group.findFirst({
       where: { id: groupId },
     });
-    
+
     if (!group) {
       return NextResponse.json({ error: "Group not found" }, { status: 404 });
     }
@@ -44,7 +44,6 @@ export async function GET(
         { status: 400 }
       );
     }
-
 
     const groupRequests = await prisma.groupRequest.findMany({
       where: {
