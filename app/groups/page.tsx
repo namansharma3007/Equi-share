@@ -67,7 +67,6 @@ export default function GroupsPage() {
           setGroups(sortedGroups);
         }
       } catch (error) {
-        ("");
         toast({
           title: "Internal server error!",
           description: "Please try again later",
