@@ -3,6 +3,8 @@ import bcrypt from "bcrypt";
 import prisma from "@/lib/db";
 import jwt from "jsonwebtoken";
 
+const secretKey = process.env.JWT_SECRET;
+
 export async function POST(req: NextRequest) {
   try {
     const { emailusername, password } = await req.json();
@@ -41,7 +43,6 @@ export async function POST(req: NextRequest) {
         { status: 400 }
       );
     }
-    const secretKey = process.env.JWT_SECRET as string;
 
     if (!secretKey) {
       console.error("JWT_SECRET is not defined in environment variables");

@@ -3,6 +3,7 @@ import jwt from "jsonwebtoken";
 import prisma from "@/lib/db";
 import { JwtPayload } from "jsonwebtoken";
 
+const secretKey = process.env.JWT_SECRET;
 
 export async function GET(req: NextRequest) {
   try {
@@ -14,7 +15,6 @@ export async function GET(req: NextRequest) {
         { status: 401 }
       );
     }
-    const secretKey = process.env.JWT_SECRET;
     
     if (!secretKey) {
       throw new Error("JWT_SECRET is not defined in environment variables");
