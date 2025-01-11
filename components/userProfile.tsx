@@ -1,7 +1,6 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { motion } from "framer-motion";
 import { AtSign, Mail, CircleUser, CalendarDays } from "lucide-react";
-import { formatDate } from "@/lib/utils";
 
 export default function UserProfile({ userData }: { userData: User | null }) {
   return (
@@ -32,12 +31,15 @@ export default function UserProfile({ userData }: { userData: User | null }) {
           </p>
           <p className="text-gray-500 flex items-center gap-2 text-xl">
             <CalendarDays className="h-6 w-6 text-purple-600" />
-            Joined: {formatDate(userData?.createdAt)}
+            Joined:{" "}
+            {new Date(userData?.createdAt).toLocaleDateString("en-GB", {
+              day: "numeric",
+              month: "short",
+              year: "numeric",
+            })}
           </p>
         </div>
       </div>
     </motion.div>
   );
 }
-
-
