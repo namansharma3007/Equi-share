@@ -18,7 +18,6 @@ export const handleLogoutFunction = async () => {
     method: "POST",
     credentials: "include",
   });
-  const data = await response.json();
   if (!response.ok) {
     return false;
   }
