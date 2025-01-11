@@ -53,7 +53,6 @@ export async function POST(req: NextRequest) {
 
     const token = jwt.sign({ userId: user.id }, secretKey, {
       expiresIn: process.env.EXPIRY_TIME,
-      // expiresIn: "1m",
     });
 
     const userReturn = {
@@ -78,7 +77,6 @@ export async function POST(req: NextRequest) {
       sameSite: 'lax',
       path: '/',
       maxAge: 30 * 24 * 60 * 60
-      // maxAge: 60
     });
 
     return response;
