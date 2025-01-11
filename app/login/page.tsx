@@ -23,7 +23,7 @@ type FormData = {
 };
 
 export default function Login() {
-  const { setToken, setUserId } = useUserContext();
+  const { setToken, setUserId, setUserData } = useUserContext();
   const router = useRouter();
 
   const [formData, setFormData] = useState<FormData>({
@@ -58,6 +58,7 @@ export default function Login() {
 
       setToken(true);
       setUserId(data.userId);
+
       toast({
         title: "Login successful",
         duration: 2000,
@@ -68,6 +69,9 @@ export default function Login() {
       router.push("/dashboard");
     } catch (error) {
       setError("Internal server error, please try again later!");
+      setToken(false);
+      setUserId("");
+      setUserData(null);
     }
   };
   return (

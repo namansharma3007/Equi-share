@@ -1,4 +1,3 @@
-
 enum Gender {
   MALE,
   FEMALE,
@@ -56,7 +55,7 @@ interface Expense {
   amount: Decimal;
   groupId: string;
   paidByUser: string;
-  expenseCreatorId: String
+  expenseCreatorId: String;
   cleared: boolean;
   group: Group;
   payerUser: User;
@@ -81,13 +80,13 @@ interface Split {
 interface UserContextType {
   user: string;
   token: boolean;
+  userData: User | null;
   setToken: (token: boolean) => void;
   setUserId: (userId: string) => void;
+  setUserData: (userData: User | null) => void;
 }
 
-
-
 interface EmailTemplateProps {
-    email: string;
-    otp: string;
+  email: string;
+  otp: string;
 }

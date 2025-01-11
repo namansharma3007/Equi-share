@@ -65,10 +65,7 @@ export async function PATCH(req: NextRequest) {
     });
 
     if (!currentUser) {
-      return NextResponse.json(
-        { message: "User not found" },
-        { status: 404 }
-      );
+      return NextResponse.json({ message: "User not found" }, { status: 404 });
     }
 
     // Check if the updateObject matches the current user data
@@ -99,7 +96,7 @@ export async function PATCH(req: NextRequest) {
 
     return NextResponse.json(
       {
-        message: "Profile updated successfully, please refresh your page",
+        message: "Profile updated successfully",
       },
       { status: 200 }
     );

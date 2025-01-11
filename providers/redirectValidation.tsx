@@ -18,7 +18,7 @@ export default function RedirectValidation({
 
   useEffect(() => {
     const isLoggedIn = Boolean(user && token);
-    
+        
     if (!isLoggedIn) {
       if (!pathsRedirect.has(pathname)) {
         router.push("/login");

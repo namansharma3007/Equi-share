@@ -119,12 +119,9 @@ export default function GroupExpensePage() {
         }
         setAvailableMembers(data);
       } catch (error) {
-        const errorMessage =
-          error instanceof Error
-            ? error.message
-            : "An unexpected error occurred";
         toast({
-          title: "Internal server error, please try again later!",
+          title: "Internal server error!",
+          description: "Please try again later",
           variant: "destructive",
           duration: 2000,
         });
@@ -161,12 +158,9 @@ export default function GroupExpensePage() {
         setExpenses(data.expenses);
         return true;
       } catch (error) {
-        const errorMessage =
-          error instanceof Error
-            ? error.message
-            : "Internal server error, please try again later!";
         toast({
-          title: "Internal server error, please try again later!",
+          title: "Internal server error!",
+          description: "Please try again later",
           variant: "destructive",
           duration: 2000,
         });
@@ -192,12 +186,9 @@ export default function GroupExpensePage() {
         }
         setAlreadySentRequests(data);
       } catch (error) {
-        const errorMessage =
-          error instanceof Error
-            ? error.message
-            : "Internal server error, please try again later!";
         toast({
-          title: "Internal server error, please try again later!",
+          title: "Internal server error!",
+          description: "Please try again later",
           variant: "destructive",
           duration: 2000,
         });
@@ -222,12 +213,9 @@ export default function GroupExpensePage() {
         }
         setGroupMembers(data.members);
       } catch (error) {
-        const errorMessage =
-          error instanceof Error
-            ? error.message
-            : "Internal server error, please try again later!";
         toast({
-          title: "Internal server error, please try again later!",
+          title: "Internal server error!",
+          description: "Please try again later",
           variant: "destructive",
           duration: 2000,
         });
@@ -250,12 +238,9 @@ export default function GroupExpensePage() {
 
         setExpenses(data.expenses ?? []);
       } catch (error) {
-        const errorMessage =
-          error instanceof Error
-            ? error.message
-            : "Internal server error, please try again later!";
         toast({
-          title: "Internal server error, please try again later!",
+          title: "Internal server error!",
+          description: "Please try again later",
           variant: "destructive",
           duration: 2000,
         });
@@ -270,10 +255,9 @@ export default function GroupExpensePage() {
       fetchGroupExpenses(),
     ])
       .catch((error) => {
-        console.log(error);
         toast({
-          title:
-            "Access denied or Internal server error, please try again later!",
+          title: "Internal server error!",
+          description: "Please try again later",
           variant: "destructive",
           duration: 2000,
         });
@@ -359,7 +343,7 @@ export default function GroupExpensePage() {
     setDisplayAmount(
       newSplits.reduce((acc, split) => acc + (split.amount ?? 0), 0)
     );
-  }
+  };
 
   const sendGroupRequest = async (toId: string) => {
     if (!groupId || !toId) return;
@@ -385,17 +369,14 @@ export default function GroupExpensePage() {
       }
       setAlreadySentRequests([...alreadySentRequests, data.groupRequest]);
     } catch (error) {
-      const errorMessage =
-        error instanceof Error
-          ? error.message
-          : "Internal server error, please try again later!";
       toast({
-        title: "Internal server error, please try again later!",
+        title: "Internal server error!",
+        description: "Please try again later",
         variant: "destructive",
         duration: 2000,
       });
     }
-  }
+  };
 
   const handleCancelRequest = async (toId: string) => {
     if (!groupId || !toId) return;
@@ -424,17 +405,14 @@ export default function GroupExpensePage() {
         alreadySentRequests.filter((request) => request.toId !== toId)
       );
     } catch (error) {
-      const errorMessage =
-        error instanceof Error
-          ? error.message
-          : "Internal server error, please try again later!";
       toast({
-        title: "Internal server error, please try again later!",
+        title: "Internal server error!",
+        description: "Please try again later",
         variant: "destructive",
         duration: 2000,
       });
     }
-  }
+  };
 
   function handleAddExpenseChange(e: ChangeEvent<HTMLInputElement>) {
     const { name, value } = e.target;
@@ -468,20 +446,20 @@ export default function GroupExpensePage() {
       0
     );
     setDisplayAmount(total);
-  }
+  };
 
   const handleSelectChange = (value: string) => {
     setExpenseFormData((prev) => ({ ...prev, paidByUser: value }));
-  }
+  };
 
   const handleRadioChange = (value: string) => {
     setHowToSplit((prev) => (prev != value ? value : prev));
-  }
+  };
 
   const openIndividualExpense = (expense: Expense) => {
     setDisplayIndividualExpense(expense);
     setDialogExpenseOpen(true);
-  }
+  };
 
   async function handleSubmitExpense(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -504,7 +482,9 @@ export default function GroupExpensePage() {
         });
         return;
       }
-      setExpenses((prev) => (prev ? [...prev, data.newExpense] : [data.newExpense]));
+      setExpenses((prev) =>
+        prev ? [...prev, data.newExpense] : [data.newExpense]
+      );
 
       setIsAddingExpenseOpen(false);
       setExpenseFormData({
@@ -515,12 +495,9 @@ export default function GroupExpensePage() {
         splits: [],
       });
     } catch (error) {
-      const errorMessage =
-        error instanceof Error
-          ? error.message
-          : "Internal server error, please try again later!";
       toast({
-        title: "Internal server error, please try again later!",
+        title: "Internal server error!",
+        description: "Please try again later",
         variant: "destructive",
         duration: 2000,
       });
@@ -547,12 +524,9 @@ export default function GroupExpensePage() {
         prev.filter((expense) => expense.id !== data.expenseId)
       );
     } catch (error) {
-      const errorMessage =
-        error instanceof Error
-          ? error.message
-          : "Internal server error, please try again later!";
       toast({
-        title: "Internal server error, please try again later!",
+        title: "Internal server error!",
+        description: "Please try again later",
         variant: "destructive",
         duration: 2000,
       });
@@ -620,18 +594,14 @@ export default function GroupExpensePage() {
         };
       });
     } catch (error) {
-      const errorMessage =
-        error instanceof Error
-          ? error.message
-          : "Internal server error, please try again later!";
       toast({
-        title: "Internal server error, please try again later!",
+        title: "Internal server error!",
+        description: "Please try again later",
         variant: "destructive",
         duration: 2000,
       });
     }
   }
-
 
   if (isLoading) return <LoadingPage />;
   // else if (!accessAllowed) return <AccessDeniedPage navLink="/groups" />;
@@ -785,7 +755,10 @@ export default function GroupExpensePage() {
                               )
                             </span>
                             <span className="text-sm text-gray-600">
-                              {expense.payerUser.firstName + " " + expense.payerUser.lastName} (${expense.amount})
+                              {expense.payerUser.firstName +
+                                " " +
+                                expense.payerUser.lastName}{" "}
+                              (${expense.amount})
                             </span>
                           </CardTitle>
 

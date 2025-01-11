@@ -15,8 +15,8 @@ export async function verifyToken(token: string) {
 }
 
 export async function middleware(req: NextRequest) {
-  const tokelAll = req.cookies.get("token");
-  const token = tokelAll?.value;
+  const tokenAll = req.cookies.get("token");
+  const token = tokenAll?.value;
 
   if (!token) {
     return NextResponse.json(
@@ -26,7 +26,6 @@ export async function middleware(req: NextRequest) {
   }
 
   const decoded = await verifyToken(token);
-
   
   if (!decoded) {
     return NextResponse.json(
@@ -43,8 +42,8 @@ export async function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/api/group/:path*", "/api/users/:path*", "/api/testing/:path*"],
-  // matcher: ["/api/group/:path*", "/api/users/:path*"],
+  // matcher: ["/api/group/:path*", "/api/users/:path*", "/api/testing/:path*"],
+  matcher: ["/api/group/:path*", "/api/users/:path*"],
 };
 
 

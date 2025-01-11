@@ -67,12 +67,10 @@ export default function GroupsPage() {
           setGroups(sortedGroups);
         }
       } catch (error) {
-        const errorMessage =
-          error instanceof Error
-            ? error.message
-            : "Internal server error, please try again later!";
+        ("");
         toast({
-          title: "Internal server error, please try again later!",
+          title: "Internal server error!",
+          description: "Please try again later",
           variant: "destructive",
           duration: 2000,
         });
@@ -96,19 +94,19 @@ export default function GroupsPage() {
           setGroupRequests(data.groupRequests);
         }
       } catch (error) {
-        const errorMessage =
-          error instanceof Error
-            ? error.message
-            : "Internal server error, please try again later!";
+        ("");
         toast({
-          title: "Internal server error, please try again later!",
+          title: "Internal server error!",
+          description: "Please try again later",
           variant: "destructive",
           duration: 2000,
         });
       }
     }
     setIsLoading(true);
-    Promise.all([fetchGroups(), fetchGroupRequests()]).catch((error) => console.log(error)).finally(() => setIsLoading(false))
+    Promise.all([fetchGroups(), fetchGroupRequests()]).finally(() =>
+      setIsLoading(false)
+    );
   }, [user, token]);
 
   const handleChange = (
@@ -155,12 +153,9 @@ export default function GroupsPage() {
         groupDescription: "",
       }));
     } catch (error) {
-      const errorMessage =
-        error instanceof Error
-          ? error.message
-          : "Internal server error, please try again later!";
       toast({
-        title: "Internal server error, please try again later!",
+        title: "Internal server error!",
+        description: "Please try again later",
         variant: "destructive",
         duration: 2000,
       });
@@ -196,12 +191,9 @@ export default function GroupsPage() {
           previousGroups?.filter((group) => group.id !== groupId) || null
       );
     } catch (error) {
-      const errorMessage =
-        error instanceof Error
-          ? error.message
-          : "Internal server error, please try again later!";
       toast({
-        title: "Internal server error, please try again later!",
+        title: "Internal server error!",
+        description: "Please try again later",
         variant: "destructive",
         duration: 2000,
       });
@@ -255,12 +247,9 @@ export default function GroupsPage() {
         duration: 2000,
       });
     } catch (error) {
-      const errorMessage =
-        error instanceof Error
-          ? error.message
-          : "Internal server error, please try again later!";
       toast({
-        title: errorMessage,
+        title: "Internal server error!",
+        description: "Please try again later",
         variant: "destructive",
         duration: 2000,
       });
@@ -299,12 +288,9 @@ export default function GroupsPage() {
         duration: 2000,
       });
     } catch (error) {
-      const errorMessage =
-        error instanceof Error
-          ? error.message
-          : "Internal server error, please try again later!";
       toast({
-        title: "Internal server error, please try again later!",
+        title: "Internal server error!",
+        description: "Please try again later",
         variant: "destructive",
         duration: 2000,
       });

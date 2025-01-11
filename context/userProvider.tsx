@@ -8,28 +8,42 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
 }) => {
   const [token, setToken] = useState<boolean>(false);
   const [user, setUserId] = useState<string>("");
-
+  const [userData, setUserData] = useState<User | null>(null);
 
   useEffect(() => {
-    Promise.resolve(checkUserSession()).then((data) => {
-      if (data) {
-        setToken(true);
-        setUserId(data.decoded.userId);
-      } else {
+    checkUserSession()
+      .then((data) => {
+        if (data) {
+          setToken(true);
+          setUserId(data.userId);
+        } else {
+          setToken(false);
+          setUserId("");
+        }
+      })
+      .catch((error) => {
         setToken(false);
         setUserId("");
-      }
-    }).catch((error) => {
-      setToken(false);
-      setUserId("");
-      console.log("Error checking user session:", error);
-    });
+      });
   }, []);
 
+  useEffect(() => {
+    getUserData().then((data) => {
+      if (data) {
+        setUserData(data.user);
+      } else {
+        throw new Error("Internal server error! User not found");
+      }
+    }).catch((error) => {
+      setUserData(null);
+    });
 
+  }, [user, token]);
 
   return (
-    <UserContext.Provider value={{ token, user, setToken, setUserId }}>
+    <UserContext.Provider
+      value={{ token, user, setToken, setUserId, userData, setUserData }}
+    >
       {children}
     </UserContext.Provider>
   );
@@ -42,3 +56,18 @@ export const useUserContext = () => {
   }
   return context;
 };
+
+async function getUserData() {
+  try {
+    const response = await fetch(`/api/users/get-user/`, {
+      method: "GET",
+    });
+    const data = await response.json();
+    if (!response.ok) {
+      return null;
+    }
+    return data;
+  } catch (error) {
+    return null;
+  }
+}

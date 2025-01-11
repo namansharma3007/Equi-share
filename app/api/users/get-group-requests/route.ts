@@ -43,7 +43,7 @@ export async function GET(req: NextRequest) {
 
     return NextResponse.json(user, { status: 200 });
   } catch (error) {
-    console.log("Error occured while fetching group requests");
+    console.log("Error occured while fetching group requests", error);
     return NextResponse.json(
       { error: "Internal server error" },
       { status: 500 }

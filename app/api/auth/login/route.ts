@@ -6,6 +6,7 @@ import jwt from "jsonwebtoken";
 export async function POST(req: NextRequest) {
   try {
     const { emailusername, password } = await req.json();
+
     const user = await prisma.user.findFirst({
       where: {
         OR: [{ username: emailusername }, { email: emailusername }],
@@ -13,6 +14,13 @@ export async function POST(req: NextRequest) {
       select: {
         id: true,
         password: true,
+        firstName: true,
+        lastName: true,
+        username: true,
+        email: true,
+        image: true,
+        gender: true,
+        createdAt: true,
       },
     });
 
@@ -47,6 +55,18 @@ export async function POST(req: NextRequest) {
       expiresIn: process.env.EXPIRY_TIME,
       // expiresIn: "1m",
     });
+
+    const userReturn = {
+      id: user.id,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      username: user.username,
+      email: user.email,
+      image: user.image,
+      gender: user.gender,
+      createdAt: user.createdAt,
+    };
+
     const response = NextResponse.json(
       { message: "Login successful", userId: user.id },
       { status: 200 }

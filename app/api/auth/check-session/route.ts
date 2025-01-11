@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import jwt from "jsonwebtoken";
+import prisma from "@/lib/db";
+import { JwtPayload } from "jsonwebtoken";
 
 
 export async function GET(req: NextRequest) {
@@ -13,11 +15,14 @@ export async function GET(req: NextRequest) {
       );
     }
     const secretKey = process.env.JWT_SECRET;
+    
     if (!secretKey) {
       throw new Error("JWT_SECRET is not defined in environment variables");
     }
     
     const decoded = jwt.verify(tokenCookie.value, secretKey);
+    
+    const decodedData = decoded as JwtPayload;
 
     if(!decoded) {
       return NextResponse.json(
@@ -26,10 +31,22 @@ export async function GET(req: NextRequest) {
       );
     }
 
+    const user = await prisma.user.findUnique({
+      where: { id: decodedData.userId },
+    });
+
+    if (!user) {
+      return NextResponse.json(
+        { message: "User not found" },
+        { status: 404 }
+      );
+    }
+
     return NextResponse.json(
-      { message: "User authenticated", decoded },
+      { message: "User authenticated", userId: decodedData.userId },
       { status: 200 }
     );
+    
   } catch (error) {
     console.log("Error while checking session:", error);
 

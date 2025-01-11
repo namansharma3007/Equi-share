@@ -14,31 +14,50 @@ import LoadingPage from "@/components/loadingPage";
 import { handleLogoutFunction } from "@/lib/auth";
 import { toast } from "@/hooks/use-toast";
 
-type FormData = {
-  name: string;
+export type FormData = {
+  firstName: string;
+  lastName: string;
   username: string;
   email: string;
-  gender: "";
+  gender: string;
 };
-
+export type PlaceholderValues = {
+  firstName: string;
+  lastName: string;
+  username: string;
+  email: string;
+  gender: string;
+};
 export default function ProfilePage() {
-  const { setToken, setUserId } = useUserContext();
   const router = useRouter();
-  const { user, token } = useUserContext();
-  const [userData, setUserData] = useState<User | null>(null);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const { user, token, userData, setToken, setUserId, setUserData } =
+    useUserContext();
+
+  const [error, setError] = useState<string | null>(null);
   const [formData, setFormData] = useState<FormData>({
-    name: "",
+    firstName: "",
+    lastName: "",
     username: "",
     email: "",
     gender: "",
   });
+
+  const [placeholderValues, setPlaceholderValues] = useState<PlaceholderValues>(
+    {
+      firstName: "",
+      lastName: "",
+      username: "",
+      email: "",
+      gender: "",
+    }
+  );
 
   const handleLogout = async () => {
     const result = await handleLogoutFunction();
     if (result) {
       setUserId("");
       setToken(false);
+      setUserData(null);
       toast({
         title: "Logged out successfully",
         duration: 2000,
@@ -46,7 +65,8 @@ export default function ProfilePage() {
       router.push("/");
     } else {
       toast({
-        title: "Internval server error",
+        title: "Internal server error!",
+        description: "Please try again later",
         variant: "destructive",
         duration: 2000,
       });
@@ -54,41 +74,70 @@ export default function ProfilePage() {
   };
 
   useEffect(() => {
-    if (!user || !token) return;
-    setIsLoading(true);
-    async function getUserData() {
-      try {
-        const response = await fetch(`/api/users/get-user/`, {
-          method: "GET",
-        });
-        const data = await response.json();
-        if (!response.ok) {
-          toast({
-            title: data.message,
-            variant: "destructive",
-            duration: 2000,
-          });
-          return;
-        }
-        setUserData(data);
-      } catch (error) {
-        const errorMessage =
-          error instanceof Error
-            ? error.message
-            : "An unexpected error occurred";
-        toast({
-          title: "Internal server error, please try again later!",
-          variant: "destructive",
-          duration: 2000,
-        });
-      } finally {
-        setIsLoading(false);
-      }
+    if (userData && user && token) {
+      setPlaceholderValues({
+        firstName: userData.firstName,
+        lastName: userData.lastName,
+        username: userData.username,
+        email: userData.email,
+        gender: String(userData.gender),
+      });
     }
-    getUserData();
-  }, [user, token]);
+  }, [userData, user, token]);
 
-  if (isLoading) return <LoadingPage />;
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSelectChange = (value: string) => {
+    setFormData((prev) => ({ ...prev, gender: value }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      const response = await fetch("/api/users/edit-profile", {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+      const data = await response.json();
+      if (!response.ok) {
+        setError(data.message);
+        return;
+      }
+      console.log(data)
+      toast({
+        title: "Profile updated successfully!",
+        description: "Reloading in 3 seconds",
+        duration: 2000,
+      });
+      setFormData((prev) => ({
+        ...prev,
+        firstName: "",
+        lastName: "",
+        username: "",
+        email: "",
+        gender: "",
+      }));
+
+      setTimeout(() => {
+        window.location.reload();
+      }, 3000);
+
+    } catch (error) {
+      toast({
+        title: "Internal server error!",
+        description: "Please try again later",
+        variant: "destructive",
+        duration: 2000,
+      });
+    }
+  };
+
   return (
     <div className="min-h-screen bg-purple-100 p-4">
       <main className="max-w-3xl mx-auto pb-20">
@@ -133,7 +182,14 @@ export default function ProfilePage() {
             </TabsContent>
 
             <TabsContent value="edit-profile" className="space-y-4 mt-4">
-              <EditProfile userData={userData} user={user} token={token}/>
+              <EditProfile
+                error={error}
+                handleSubmit={handleSubmit}
+                handleInputChange={handleInputChange}
+                handleSelectChange={handleSelectChange}
+                placeholderValues={placeholderValues}
+                formData={formData}
+              />
             </TabsContent>
           </Tabs>
         </motion.div>

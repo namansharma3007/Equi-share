@@ -21,30 +21,31 @@ import { handleLogoutFunction } from "@/lib/auth";
 import { toast } from "@/hooks/use-toast";
 
 export default function WelcomePage() {
-  const { user, token, setToken, setUserId } = useUserContext();
+  const { user, token, setToken, setUserId, userData, setUserData } =
+    useUserContext();
 
-  const [userData, setUserData] = useState<User | null>(null);
+  // const [userData, setUserData] = useState<User | null>(null);
 
-  useEffect(() => {
-    async function getUserData() {
-      try {
-        const response = await fetch(`/api/users/get-user/`, {
-          method: "GET",
-        });
-        const data = await response.json();
-        if (!response.ok) {
-          return;
-        }
-        setUserData(data);
-      } catch (error) {
-        const errorMessage =
-          error instanceof Error
-            ? error.message
-            : "An unexpected error occurred";
-      }
-    }
-    getUserData();
-  }, [user, token]);
+  // useEffect(() => {
+  //   async function getUserData() {
+  //     try {
+  //       const response = await fetch(`/api/users/get-user/`, {
+  //         method: "GET",
+  //       });
+  //       const data = await response.json();
+  //       if (!response.ok) {
+  //         return;
+  //       }
+  //       setUserData(data);
+  //     } catch (error) {
+  //       const errorMessage =
+  //         error instanceof Error
+  //           ? error.message
+  //           : "An unexpected error occurred";
+  //     }
+  //   }
+  //   getUserData();
+  // }, [user, token]);
 
   const handleLogout = async () => {
     const result = await handleLogoutFunction();
@@ -58,7 +59,8 @@ export default function WelcomePage() {
       });
     } else {
       toast({
-        title: "Internval server error",
+        title: "Internal server error!",
+        description: "Please try again later",
         variant: "destructive",
         duration: 2000,
       });
@@ -71,8 +73,8 @@ export default function WelcomePage() {
         {userData ? (
           <div className="flex items-center space-x-2">
             <Avatar className="w-10 h-10 mr-2">
-              <AvatarImage src={userData.image} alt={userData.name} />
-              <AvatarFallback>{userData.name}</AvatarFallback>
+              <AvatarImage src={userData.image} alt={userData.username} />
+              <AvatarFallback>{userData.username}</AvatarFallback>
             </Avatar>
             <Link href="/dashboard">
               <Button

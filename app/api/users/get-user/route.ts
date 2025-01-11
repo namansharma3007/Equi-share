@@ -30,7 +30,10 @@ export async function GET(req: NextRequest) {
       return NextResponse.json({ error: "User not found" }, { status: 404 });
     }
 
-    return NextResponse.json(user, { status: 200 });
+    return NextResponse.json({
+      message: "User data fetched successfully",
+      user,
+    }, { status: 200 });
   } catch (error) {
     console.log("Error fetching user data", error);
     return NextResponse.json(

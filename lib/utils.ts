@@ -33,10 +33,9 @@ export async function getUserData() {
     }
     return data;
   } catch (error) {
-    const errorMessage =
-      error instanceof Error ? error.message : "An unexpected error occurred";
     toast({
-      title: "Internal server error, please try again later!",
+      title: "Internal server error!",
+      description: "Please try again later",
       variant: "destructive",
       duration: 2000,
     });
