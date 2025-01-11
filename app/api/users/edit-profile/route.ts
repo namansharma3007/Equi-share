@@ -1,12 +1,18 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/lib/db";
 
+// Define the Gender enum (assuming it's defined in your Prisma schema)
+enum Gender {
+  MALE = 'MALE',
+  FEMALE = 'FEMALE',
+}
+
 // Define the type for the update object
 type UpdateObject = {
   firstName?: string;
   lastName?: string;
   username?: string;
-  gender?: string;
+  gender?: Gender; // Use the Gender enum type
   email?: string;
 };
 
@@ -52,11 +58,11 @@ export async function PATCH(req: NextRequest) {
     }
 
     // Create the update object
-    const updateObject: any = {};
+    const updateObject: UpdateObject = {};
     if (firstName) updateObject.firstName = firstName;
     if (lastName) updateObject.lastName = lastName;
     if (username) updateObject.username = username;
-    if (gender) updateObject.gender = gender;
+    if (gender) updateObject.gender = gender as Gender; // Cast to Gender enum type
     if (email) updateObject.email = email;
 
     // Fetch the current user data

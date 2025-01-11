@@ -56,16 +56,6 @@ export async function POST(req: NextRequest) {
       expiresIn: process.env.EXPIRY_TIME,
     });
 
-    const userReturn = {
-      id: user.id,
-      firstName: user.firstName,
-      lastName: user.lastName,
-      username: user.username,
-      email: user.email,
-      image: user.image,
-      gender: user.gender,
-      createdAt: user.createdAt,
-    };
 
     const response = NextResponse.json(
       { message: "Login successful", userId: user.id },
@@ -81,6 +71,7 @@ export async function POST(req: NextRequest) {
     });
 
     return response;
+    
   } catch (error) {
     console.log("Error logging in:", error);
     return NextResponse.json(

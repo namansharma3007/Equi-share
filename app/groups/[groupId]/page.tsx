@@ -131,7 +131,7 @@ export default function GroupExpensePage() {
     }, 500);
 
     return () => clearTimeout(timeout);
-  }, [searchTerm]);
+  }, [searchTerm, groupId]);
 
   useEffect(() => {
     if (!token || !user) return;

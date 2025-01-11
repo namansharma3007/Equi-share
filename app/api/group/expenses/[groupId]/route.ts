@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/lib/db";
-import { JwtPayload } from "jsonwebtoken";
 
 export async function GET(
   req: NextRequest,

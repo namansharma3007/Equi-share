@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/lib/db";
-import { JwtPayload } from "jsonwebtoken";
 
 export async function GET(
   req: NextRequest,
@@ -30,7 +29,7 @@ export async function GET(
         AND: [{ id: userId }, { group: { some: { id: groupId } } }],
       },
     });
-    
+
     if (!user) {
       return NextResponse.json(
         { message: "You are not part of this group" },
