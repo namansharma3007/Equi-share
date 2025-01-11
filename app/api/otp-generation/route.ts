@@ -1,9 +1,9 @@
 import { NextResponse, NextRequest } from "next/server";
 // import prisma from "@/lib/db";
-import bcrypt from "bcrypt";
-import { Resend } from "resend";
-import { EmailTemplate } from "@/components/email-template";
-const resend = new Resend(process.env.RESEND_API_KEY);
+// import bcrypt from "bcrypt";
+// import { Resend } from "resend";
+// import { EmailTemplate } from "@/components/email-template";
+// const resend = new Resend(process.env.RESEND_API_KEY);
 
 export async function POST(req: NextRequest) {
   try {
