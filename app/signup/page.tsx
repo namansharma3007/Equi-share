@@ -227,7 +227,7 @@ export default function SignupPage() {
           </CardContent>
           <CardFooter>
             <div className="text-center w-full ">
-              Already have an account?{" "}
+              Already have an account?&#160;
               <Link href="/login" className="text-purple-600 hover:underline">
                 Log in
               </Link>
