@@ -62,6 +62,8 @@ export default function GroupExpensePage() {
   const [deleteAlertOpen, setDeleteAlertOpen] = useState<boolean>(false);
   const [deleteExpenseId, setDeleteExpenseId] = useState<string>("");
 
+  const [isLoadingMembers, setIsLoadingMembers] = useState<boolean>(false);
+
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [groupDetails, setGroupDetails] = useState<Group | null>(null);
   const [groupMembers, setGroupMembers] = useState<User[]>([]);
@@ -93,6 +95,8 @@ export default function GroupExpensePage() {
     splits: [],
   });
 
+  const [skip, setSkip] = useState<number>(0);
+
   useEffect(() => {
     async function fetchUsers() {
       try {
@@ -104,6 +108,7 @@ export default function GroupExpensePage() {
           body: JSON.stringify({
             searchTerm: searchTerm,
             groupId: groupId,
+            skip: 0,
           }),
         });
         const data = await response.json();
@@ -116,6 +121,7 @@ export default function GroupExpensePage() {
           return;
         }
         setAvailableMembers(data);
+        setSkip(0);
       } catch (error) {
         toast({
           title: "Internal server error!",
@@ -132,6 +138,43 @@ export default function GroupExpensePage() {
 
     return () => clearTimeout(timeout);
   }, [searchTerm, groupId]);
+
+  const loadMoreMembers = async () => {
+    setIsLoadingMembers(true);
+    try {
+      const response = await fetch(`/api/group/search-for-members`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          searchTerm: searchTerm,
+          groupId: groupId,
+          skip: skip + 5,
+        }),
+      });
+      const data = await response.json();
+      if (!response.ok) {
+        toast({
+          title: data.message,
+          variant: "destructive",
+          duration: 2000,
+        });
+        return;
+      }
+      setAvailableMembers((prev) => (prev ? [...prev, ...data] : data));
+      setSkip((prev) => prev + 5);
+    } catch (error) {
+      toast({
+        title: "Internal server error!",
+        description: "Please try again later",
+        variant: "destructive",
+        duration: 2000,
+      });
+    } finally{
+      setIsLoadingMembers(false);
+    }
+  };
 
   useEffect(() => {
     if (!token || !user) return;
@@ -625,6 +668,8 @@ export default function GroupExpensePage() {
                   alreadySentRequests={alreadySentRequests}
                   handleCancelRequest={handleCancelRequest}
                   sendGroupRequest={sendGroupRequest}
+                  loadMoreMembers={loadMoreMembers}
+                  isLoadingMembers={isLoadingMembers}
                 />
               )}
             </motion.div>

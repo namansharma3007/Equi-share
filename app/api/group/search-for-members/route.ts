@@ -3,8 +3,7 @@ import prisma from "@/lib/db";
 
 export async function POST(req: NextRequest) {
   try {
-    const { searchTerm, groupId } = await req.json();
-
+    const { searchTerm, groupId, skip = 0 } = await req.json();
 
     const availableMembers = await prisma.user.findMany({
       where: {
@@ -38,6 +37,8 @@ export async function POST(req: NextRequest) {
           },
         ],
       },
+      take: 5, // Limit the results to the first 5 names
+      skip: skip, // Skip the first 'skip' results
     });
 
     return NextResponse.json(availableMembers, { status: 200 });

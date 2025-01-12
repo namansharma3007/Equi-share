@@ -26,6 +26,8 @@ export default function DialogIsAddingMember({
   alreadySentRequests,
   handleCancelRequest,
   sendGroupRequest,
+  loadMoreMembers,
+  isLoadingMembers,
 }: {
   isAddingMemberOpen: boolean;
   setIsAddingMemberOpen: Dispatch<SetStateAction<boolean>>;
@@ -35,7 +37,11 @@ export default function DialogIsAddingMember({
   alreadySentRequests: GroupRequest[];
   handleCancelRequest: (toId: string) => void;
   sendGroupRequest: (toId: string) => void;
+  loadMoreMembers: () => void;
+  isLoadingMembers: boolean;
 }) {
+
+
   return (
     <Dialog open={isAddingMemberOpen} onOpenChange={setIsAddingMemberOpen}>
       <DialogTrigger asChild>
@@ -118,7 +124,16 @@ export default function DialogIsAddingMember({
               </motion.div>
             ))}
         </ScrollArea>
+          {isLoadingMembers && (
+            <div className="flex justify-center items-center py-4">
+              <div className="w-9 h-9 rounded-full border-4 border-solid border-purple-500 border-l-gray-200 animate-spin"></div>
+            </div>
+          )}
+        <Button onClick={loadMoreMembers} className="mt-2">
+          Load More
+        </Button>
       </DialogContent>
     </Dialog>
   );
 }
+
