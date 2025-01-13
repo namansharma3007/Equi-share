@@ -20,7 +20,8 @@ export default function WelcomePage() {
       setToken(false);
       setUserData(null);
       toast({
-        title: "Logged out successfully",
+        title: "Logged out successfully!",
+        variant: "success",
         duration: 2000,
       });
     } else {

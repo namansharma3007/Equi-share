@@ -96,6 +96,16 @@ export default function ProfilePage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if(!formData.firstName && !formData.lastName && !formData.username && !formData.email && !formData.gender) {
+      toast({
+        title: "Please fill all the fields",
+        description: "Please try again later",
+        variant: "success",
+        duration: 2000,
+      });
+      return;
+    }
+
     try {
       const response = await fetch("/api/users/edit-profile", {
         method: "PATCH",
