@@ -35,7 +35,7 @@ export async function POST(req: NextRequest) {
         split: { id: string; amount: number | null; }
       ) => sum + (split.amount ?? 0)
     , 0);
-      console.log(totalSplitAmount, typeof amount)
+    
     if (!isClose(totalSplitAmount, amount, 0.01)) {
       return NextResponse.json(
         { message: "Total splits amount does not match expense amount" },
@@ -43,12 +43,6 @@ export async function POST(req: NextRequest) {
       );
     }
     
-    // if (parseFloat(totalSplitAmount) !== parseFloat(amount)) {
-    //   return NextResponse.json(
-    //     { message: "Total splits amount does not match expense amount" },
-    //     { status: 400 }
-    //   );
-    // }
 
     const newExpense = await prisma.$transaction(async (prisma) => {
       let clearingStatus = splits.length === 1 && splits[0].id === paidByUser;
