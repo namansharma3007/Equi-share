@@ -221,7 +221,7 @@ export default function DialogIsAdingExpense({
               </div>
 
               {expenseFormData.splits.length > 0 && (
-                <div className={`space-y-2 border p-2 rounded ${parseFloat(`${expenseFormData?.amount ?? "0"}`) < displayAmount ? "bg-red-300" : ''}`}>
+                <div className="space-y-2 border p-2 rounded">
                   {howToSplit === "manually" && (
                     <div className="flex w-full justify-around items-center">
                       <p className="text-sm text-center underline font-semibold">

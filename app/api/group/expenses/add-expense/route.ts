@@ -32,16 +32,23 @@ export async function POST(req: NextRequest) {
     const totalSplitAmount = splits.reduce(
       (
         sum: number,
-        split: { id: string; amount: number | null; name: string }
+        split: { id: string; amount: number | null; }
       ) => sum + (split.amount ?? 0)
     , 0);
-    
-    if (parseFloat(totalSplitAmount) !== parseFloat(amount)) {
+      console.log(totalSplitAmount, typeof amount)
+    if (!isClose(totalSplitAmount, amount, 0.01)) {
       return NextResponse.json(
         { message: "Total splits amount does not match expense amount" },
         { status: 400 }
       );
     }
+    
+    // if (parseFloat(totalSplitAmount) !== parseFloat(amount)) {
+    //   return NextResponse.json(
+    //     { message: "Total splits amount does not match expense amount" },
+    //     { status: 400 }
+    //   );
+    // }
 
     const newExpense = await prisma.$transaction(async (prisma) => {
       let clearingStatus = splits.length === 1 && splits[0].id === paidByUser;
@@ -126,4 +133,10 @@ export async function POST(req: NextRequest) {
       { status: 500 }
     );
   }
+}
+
+function isClose(a: number, b: number, tolerance: number): boolean {
+  const result = b - a;
+  const roundedResult = parseFloat(result.toFixed(2));
+  return Math.abs(roundedResult) <= tolerance;
 }

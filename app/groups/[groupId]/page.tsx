@@ -249,6 +249,8 @@ export default function GroupExpensePage() {
     }
   }, [howToSplit, expenseFormData.amount, expenseFormData.splits.length]);
 
+  
+
   useEffect(() => {
     if (!expenses) return;
     let filteredExpenses = expenses;
