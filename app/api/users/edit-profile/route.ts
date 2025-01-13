@@ -91,15 +91,22 @@ export async function PATCH(req: NextRequest) {
       }
     }
 
-    if(gender){
-      if(currentUser.gender !== gender){
-        if(gender === "MALE"){
-          updateObject.image = boyProfilePic + username;
-        } else {
-          updateObject.image = girlProfilePic + username;
+    if(updateObject.username || updateObject.gender){
+      if(updateObject.gender && updateObject.username){
+        if(updateObject.username !== currentUser.username){
+          if(gender === "MALE"){
+            updateObject.image = boyProfilePic + updateObject.username;
+          } else {
+            updateObject.image = girlProfilePic + updateObject.username;
+          }
         }
+      } else if(updateObject.username){
+        updateObject.image = (gender === "MALE") ? boyProfilePic + updateObject.username : girlProfilePic + updateObject.username;
+      } else {
+        updateObject.image = (gender === "MALE") ? boyProfilePic + currentUser.username : girlProfilePic + currentUser.username;
       }
     }
+
     // If no changes are made, return a response
     if (isDataUnchanged) {
       return NextResponse.json(
