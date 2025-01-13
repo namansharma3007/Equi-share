@@ -9,19 +9,21 @@ datasource db {
 }
 
 model User {
-  id       String  @id @default(uuid())
+  id        String  @id @default(uuid())
   firstName String
-  lastName String
-  username String  @unique
-  email    String  @unique
-  password String
-  image    String?
-  gender   Gender
+  lastName  String
+  username  String  @unique
+  email     String  @unique
+  password  String
+  image     String?
+  gender    Gender
 
-  expenses   Expense[] @relation("ExpenseToUser")
-  group      Group[]   @relation("GroupsPartOf")
-  splits     Split[]   @relation("UserSplit")
-  groupAdmin Group[]   @relation("GroupAdmin")
+  otp OTP? @relation("UserOTP")
+
+  expenses       Expense[] @relation("ExpenseToUser")
+  group          Group[]   @relation("GroupsPartOf")
+  splits         Split[]   @relation("UserSplit")
+  groupAdmin     Group[]   @relation("GroupAdmin")
   expenseCreator Expense[] @relation("ExpenseCreator")
 
   groupRequests GroupRequest[] @relation("GroupRequestTo")
@@ -72,19 +74,19 @@ model GroupRequest {
 }
 
 model Expense {
-  id             String   @id @default(uuid())
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @default(now()) @updatedAt
-  name           String
-  amount         Decimal
-  groupId        String
-  paidByUser     String
+  id               String   @id @default(uuid())
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @default(now()) @updatedAt
+  name             String
+  amount           Decimal
+  groupId          String
+  paidByUser       String
   expenseCreatorId String
-  cleared        Boolean  @default(false)
-  group          Group    @relation("ExpenseToGroup", fields: [groupId], references: [id], onDelete: Cascade)
-  payerUser      User     @relation("ExpenseToUser", fields: [paidByUser], references: [id], onDelete: Cascade)
-  expenseCreator User     @relation("ExpenseCreator", fields: [expenseCreatorId], references: [id], onDelete: Cascade)
-  splits         Split[]  @relation("ExpenseSplit")
+  cleared          Boolean  @default(false)
+  group            Group    @relation("ExpenseToGroup", fields: [groupId], references: [id], onDelete: Cascade)
+  payerUser        User     @relation("ExpenseToUser", fields: [paidByUser], references: [id], onDelete: Cascade)
+  expenseCreator   User     @relation("ExpenseCreator", fields: [expenseCreatorId], references: [id], onDelete: Cascade)
+  splits           Split[]  @relation("ExpenseSplit")
 
   @@unique([groupId, id])
   @@index([groupId])
@@ -120,4 +122,19 @@ enum RequestStatus {
   PENDING
   ACCEPTED
   REJECTED
+}
+
+model OTP {
+  id     String @id @default(uuid())
+  userId String
+  otp    String
+
+  user User @relation("UserOTP", fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt DateTime
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  @@unique([userId])
+  @@index([userId])
 }

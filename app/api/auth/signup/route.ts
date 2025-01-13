@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcrypt";
 import prisma from "@/lib/db";
+import { hashPassword } from "@/lib/utilities";
 
 const boyProfilePic = process.env.USER_IMAGE_MALE_URL;
 const girlProfilePic = process.env.USER_IMAGE_FEMALE_URL;
@@ -106,10 +107,4 @@ export async function POST(req: NextRequest) {
       { status: 500 }
     );
   }
-}
-
-async function hashPassword(password: string) {
-  const saltRounds = 10;
-  const hashedPassword = await bcrypt.hash(password, saltRounds);
-  return hashedPassword;
 }

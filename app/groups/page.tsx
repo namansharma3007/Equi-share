@@ -103,7 +103,7 @@ export default function GroupsPage() {
       }
     }
     setIsLoading(true);
-    Promise.all([fetchGroups(), fetchGroupRequests()]).finally(() =>
+    Promise.allSettled([fetchGroups(), fetchGroupRequests()]).finally(() =>
       setIsLoading(false)
     );
   }, [user, token]);

@@ -199,6 +199,7 @@ export default function SignupPage() {
                   id="password"
                   name="password"
                   type="password"
+                  placeholder="******"
                   required
                   value={formData.password}
                   onChange={handleInputChange}
@@ -212,6 +213,7 @@ export default function SignupPage() {
                   id="confirm-password"
                   name="confirmPassword"
                   type="password"
+                  placeholder="******"
                   required
                   value={formData.confirmPassword}
                   onChange={handleInputChange}

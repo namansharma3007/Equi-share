@@ -28,6 +28,7 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
   }, []);
 
   useEffect(() => {
+    if(!user || !token) return
     getUserData().then((data) => {
       if (data) {
         setUserData(data.user);

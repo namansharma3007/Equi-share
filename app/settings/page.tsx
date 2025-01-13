@@ -56,12 +56,12 @@ export default function ProfilePage() {
     if (result) {
       setUserId("");
       setToken(false);
-      setUserData(null);
       toast({
         title: "Logged out successfully",
         duration: 2000,
       });
       router.push("/");
+      setUserData(null);
     } else {
       toast({
         title: "Internal server error!",

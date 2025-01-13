@@ -35,7 +35,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const validPassword = await bcrypt.compare(password, user.password);
+    const validPassword = bcrypt.compare(password, user.password);
 
     if (!validPassword) {
       return NextResponse.json(
@@ -45,11 +45,7 @@ export async function POST(req: NextRequest) {
     }
 
     if (!secretKey) {
-      console.error("JWT_SECRET is not defined in environment variables");
-      return NextResponse.json(
-        { message: "Internal server Error" },
-        { status: 500 }
-      );
+      throw new Error("JWT_SECRET is not defined in environment variables");
     }
 
     const token = jwt.sign({ userId: user.id }, secretKey, {

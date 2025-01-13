@@ -13,8 +13,8 @@ export default function RedirectValidation({
   const router = useRouter();
   const pathname = usePathname();
 
-  const pathsRedirect: Set<string> = new Set(["/login", "/signup", "/"]);
-  const specialRedirects: Set<string> = new Set(["/login", "/signup" ]);
+  const pathsRedirect: Set<string> = new Set(["/login", "/signup", "/", "/login/forgetpassword"]);
+  const specialRedirects: Set<string> = new Set(["/login", "/signup", "/login/forgetpassword" ]);
 
   useEffect(() => {
     const isLoggedIn = Boolean(user && token);

@@ -78,7 +78,9 @@ export default function Login() {
     <div className="min-h-screen bg-purple-100 flex items-center flex-col justify-center p-4">
       {error && (
         <div className="flex w-max items-center justify-center bg-red-500 p-4 rounded-md mb-6">
-          <p className="text-gray-100 text-sm font-medium text-center">{error}</p>
+          <p className="text-gray-100 text-sm font-medium text-center">
+            {error}
+          </p>
         </div>
       )}
       <Card className="w-full max-w-md">
@@ -126,12 +128,25 @@ export default function Login() {
             </form>
           </CardContent>
           <CardFooter>
-            <p className="text-center w-full">
-              Don&apos;t have an account?&#160;
-              <Link href="/signup" className="text-purple-600 hover:underline">
-                Sign up
-              </Link>
-            </p>
+            <div className="flex w-full justify-center flex-col items-center">
+              <p className="text-center w-full">
+                Don&apos;t have an account?&#160;
+                <Link
+                  href="/signup"
+                  className="text-purple-600 hover:underline"
+                >
+                  Sign up
+                </Link>
+              </p>
+              <p>
+                <Link
+                  href="/login/forgetpassword"
+                  className="text-purple-600 hover:underline"
+                >
+                  Forgot password
+                </Link>
+              </p>
+            </div>
           </CardFooter>
         </motion.div>
       </Card>
