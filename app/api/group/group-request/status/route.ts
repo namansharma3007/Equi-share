@@ -39,6 +39,7 @@ export async function PATCH(req: NextRequest) {
             name: true,
             description: true,
             groupAdminId: true,
+            createdAt: true,
             members: {
               select: {
                 id: true,
