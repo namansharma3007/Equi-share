@@ -22,7 +22,7 @@ export async function DELETE(req: NextRequest) {
 
     if (group.groupAdminId !== userId) {
       return NextResponse.json(
-        { message: "Only group admin can delete this group" },
+        { message: "Only group admin can delete a group" },
         { status: 400 }
       );
     }
