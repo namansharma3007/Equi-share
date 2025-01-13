@@ -63,7 +63,7 @@ export function DisplayIndividualExpense({
             (${displayIndividualExpense.amount}) 
           </DialogTitle>
           <DialogDescription>{displayIndividualExpense.name}</DialogDescription>
-          <motion.div className="flex flex-col gap-2" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }}>
+          <motion.div className="flex flex-col gap-2" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
             {displayIndividualExpense.splits.map((split, index) => (
               <div
                 key={index}
@@ -80,8 +80,7 @@ export function DisplayIndividualExpense({
                     <span className="text-sm">You (${split.amountOwed})</span>
                   ) : (
                     <span className="text-sm">
-                      {split.user.firstName + " " + split.user.lastName} (
-                      {split.amountOwed})
+                      {split.user.firstName + " " + split.user.lastName} (${split.amountOwed})
                     </span>
                   )}
                 </div>
