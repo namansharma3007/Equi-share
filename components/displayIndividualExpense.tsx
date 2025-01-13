@@ -4,18 +4,8 @@ import {
   DialogDescription,
   DialogTitle,
 } from "@/components/ui/dialog";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-} from "@/components/ui/alert-dialog";
 
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction } from "react";
 import { Button } from "./ui/button";
 
 export function DisplayIndividualExpense({
@@ -37,21 +27,14 @@ export function DisplayIndividualExpense({
     expense: Expense | null;
   }) => void;
 }) {
-  const [isOpen, setIsOpen] = useState(false);
-  const [clearingSplit, setClearingSplit] = useState<{
-    split: Split | null;
-    expense: Expense | null;
-  }>({ split: null, expense: null });
 
   function setClearingSplitValue(split: Split, expense: Expense) {
-    setClearingSplit({ split, expense });
-    setIsOpen(true);
+    handleSplitClearance({split, expense})
   }
 
   if (!displayIndividualExpense) return null;
 
   return (
-    <>
       <Dialog open={dialogExpenseOpen} onOpenChange={setDialogExpenseOpen}>
         <DialogContent className="pt-2 flex flex-col">
           <DialogTitle>
@@ -100,53 +83,6 @@ export function DisplayIndividualExpense({
         </DialogContent>
       </Dialog>
 
-      <AlertSplitCleared
-        isOpen={isOpen}
-        setIsOpen={setIsOpen}
-        clearingSplit={clearingSplit}
-        handleSplitClearance={handleSplitClearance}
-      />
-    </>
-  );
-}
-
-function AlertSplitCleared({
-  isOpen,
-  setIsOpen,
-  clearingSplit,
-  handleSplitClearance,
-}: {
-  isOpen: boolean;
-  setIsOpen: Dispatch<SetStateAction<boolean>>;
-  clearingSplit: { split: Split | null; expense: Expense | null };
-  handleSplitClearance: ({
-    split,
-    expense,
-  }: {
-    split: Split | null;
-    expense: Expense | null;
-  }) => void;
-}) {
-  return (
-    <AlertDialog open={isOpen} onOpenChange={setIsOpen}>
-      <AlertDialogContent>
-        <AlertDialogHeader>
-          <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-          <AlertDialogDescription>
-            This action cannot be undone. This will permanently change your
-            split status.
-          </AlertDialogDescription>
-        </AlertDialogHeader>
-        <AlertDialogFooter>
-          <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction
-            className="bg-red-600 hover:bg-red-700"
-            onClick={() => handleSplitClearance(clearingSplit)}
-          >
-            Clear
-          </AlertDialogAction>
-        </AlertDialogFooter>
-      </AlertDialogContent>
-    </AlertDialog>
+  
   );
 }

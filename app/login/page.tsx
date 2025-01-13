@@ -59,13 +59,17 @@ export default function Login() {
       setToken(true);
       setUserId(data.userId);
 
+      
+      setError(null);
+      
+      setFormData((prev) => ({ ...prev, emailusername: "", password: "" }));
+
       toast({
-        title: "Login successful",
+        title: "Login successful!",
+        variant: "success",
         duration: 2000,
       });
-      setError(null);
-
-      setFormData((prev) => ({ ...prev, emailusername: "", password: "" }));
+      
       router.push("/dashboard");
     } catch (error) {
       setError("Internal server error, please try again later!");

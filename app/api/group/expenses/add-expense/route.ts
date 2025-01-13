@@ -44,6 +44,7 @@ export async function POST(req: NextRequest) {
     }
 
     const newExpense = await prisma.$transaction(async (prisma) => {
+      let clearingStatus = splits.length === 1 && splits[0].id === paidByUser;
       const expense = await prisma.expense.create({
         data: {
           name,
@@ -51,7 +52,7 @@ export async function POST(req: NextRequest) {
           groupId,
           paidByUser,
           expenseCreatorId: userId,
-          cleared: false,
+          cleared: clearingStatus,
         },
         include: {
           payerUser: {

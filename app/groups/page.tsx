@@ -141,6 +141,7 @@ export default function GroupsPage() {
 
       toast({
         title: "Group created successfully",
+        variant: "success",
         duration: 2000,
       });
 
@@ -188,6 +189,11 @@ export default function GroupsPage() {
         (previousGroups) =>
           previousGroups?.filter((group) => group.id !== groupId) || null
       );
+      toast({
+        title: "Group deleted successfully!",
+        variant: "success",
+        duration: 2000,
+      })
     } catch (error) {
       toast({
         title: "Internal server error!",
@@ -241,7 +247,8 @@ export default function GroupsPage() {
         ...(previousGroups || []),
       ]);
       toast({
-        title: "Request accepted",
+        title: "Request accepted!",
+        variant: "success",
         duration: 2000,
       });
     } catch (error) {
@@ -282,7 +289,8 @@ export default function GroupsPage() {
         prevrequests.filter((request) => request.group.id !== groupId)
       );
       toast({
-        title: "Request rejected",
+        title: "Request rejected!",
+        variant: "success",
         duration: 2000,
       });
     } catch (error) {

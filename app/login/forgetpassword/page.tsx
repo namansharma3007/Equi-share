@@ -68,6 +68,7 @@ export default function ForgetPasswordPage() {
       toast({
         title: "OTP SENT!",
         description: "Please check your email",
+        variant: "success",
         duration: 2000,
       });
       setOtpReceived(true);
@@ -101,6 +102,7 @@ export default function ForgetPasswordPage() {
       }
       toast({
         title: "OTP VERIFIED!",
+        variant: "success",
         duration: 2000,
       });
       setOtpInput("");
@@ -136,6 +138,7 @@ export default function ForgetPasswordPage() {
       toast({
         title: "Password changed successfully",
         description: "You will be redirected to login page in 3 seconds",
+        variant: "success",
         duration: 2000,
       });
 

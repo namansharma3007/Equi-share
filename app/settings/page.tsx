@@ -58,6 +58,7 @@ export default function ProfilePage() {
       setToken(false);
       toast({
         title: "Logged out successfully",
+        variant: "success",
         duration: 2000,
       });
       router.push("/");
@@ -112,6 +113,7 @@ export default function ProfilePage() {
       toast({
         title: "Profile updated successfully!",
         description: "Reloading in 3 seconds",
+        variant: "success",
         duration: 2000,
       });
       setFormData((prev) => ({

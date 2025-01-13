@@ -317,6 +317,11 @@ export default function GroupExpensePage() {
         return;
       }
       setAlreadySentRequests([...alreadySentRequests, data.groupRequest]);
+      toast({
+        title: "Request sent!",
+        variant: "success",
+        duration: 2000,
+      })
     } catch (error) {
       toast({
         title: "Internal server error!",
@@ -353,6 +358,11 @@ export default function GroupExpensePage() {
       setAlreadySentRequests(
         alreadySentRequests.filter((request) => request.toId !== toId)
       );
+      toast({
+        title: "Request canceled!",
+        variant: "success",
+        duration: 2000,
+      })
     } catch (error) {
       toast({
         title: "Internal server error!",
@@ -443,6 +453,12 @@ export default function GroupExpensePage() {
         paidByUser: "",
         splits: [],
       });
+
+      toast({
+        title: "Expense added!",
+        variant: "success",
+        duration: 2000,
+      })
     } catch (error) {
       toast({
         title: "Internal server error!",
@@ -472,6 +488,13 @@ export default function GroupExpensePage() {
       setExpenses((prev) =>
         prev.filter((expense) => expense.id !== data.expenseId)
       );
+
+      toast({
+        title: "Expense deleted!",
+        variant: "success",
+        duration: 2000,
+      })
+
     } catch (error) {
       toast({
         title: "Internal server error!",
@@ -542,6 +565,13 @@ export default function GroupExpensePage() {
           cleared: clearedExpense ? true : prev.cleared,
         };
       });
+
+      toast({
+        title: "Split cleared!",
+        duration: 2000,
+        variant: "success"
+      })
+
     } catch (error) {
       toast({
         title: "Internal server error!",

@@ -78,6 +78,7 @@ export default function SignupPage() {
       }
       toast({
         title: "Signup successful",
+        variant: "success",
         duration: 2000,
       });
       setFormData((prev) => ({
