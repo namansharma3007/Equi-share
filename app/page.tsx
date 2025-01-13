@@ -137,7 +137,7 @@ export default function WelcomePage() {
         </div>
       </main>
       <footer className="mt-12 py-6 bg-purple-600 text-white text-center ">
-        <p>&copy; 2024 Equi-share. All rights reserved.</p>
+        <p>&copy; {new Date().getFullYear()} Equi-share. All rights reserved.</p>
       </footer>
     </div>
   );
