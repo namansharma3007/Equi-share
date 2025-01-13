@@ -9,7 +9,7 @@ export default function RedirectValidation({
 }: {
   children: React.ReactNode;
 }) {
-  const { user, token } = useUserContext();
+  const { user, token, userData } = useUserContext();
   const router = useRouter();
   const pathname = usePathname();
 
@@ -17,7 +17,7 @@ export default function RedirectValidation({
   const specialRedirects: Set<string> = new Set(["/login", "/signup", "/login/forgetpassword" ]);
 
   useEffect(() => {
-    const isLoggedIn = Boolean(user && token);
+    const isLoggedIn = Boolean(user && token && userData);
         
     if (!isLoggedIn) {
       if (!pathsRedirect.has(pathname)) {
