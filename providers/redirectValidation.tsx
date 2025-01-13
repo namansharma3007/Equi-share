@@ -26,7 +26,9 @@ export default function RedirectValidation({
     } else {
       if (specialRedirects.has(pathname)) {
         router.push("/dashboard");
-      } 
+      } else {
+        router.push(pathname);
+      }
     }
   }, [user, token, pathname, router]);
 
