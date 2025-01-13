@@ -134,7 +134,7 @@ export default function GroupExpensePage() {
 
     const timeout = setTimeout(() => {
       fetchUsers();
-    }, 500);
+    }, 700);
 
     return () => clearTimeout(timeout);
     
