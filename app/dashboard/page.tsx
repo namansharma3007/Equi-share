@@ -177,7 +177,6 @@ export default function Dashboard() {
                                   )
                                 </p>
                                 <p className="text-sm text-gray-600">
-                                  @
                                   {expense.payerUser.firstName +
                                     " " +
                                     expense.payerUser.lastName}{" "}
