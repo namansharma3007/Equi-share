@@ -93,7 +93,6 @@ export default function GroupsPage() {
           setGroupRequests(data.groupRequests);
         }
       } catch (error) {
-        ("");
         toast({
           title: "Internal server error!",
           description: "Please try again later",

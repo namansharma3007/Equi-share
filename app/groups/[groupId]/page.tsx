@@ -137,9 +137,10 @@ export default function GroupExpensePage() {
     }, 500);
 
     return () => clearTimeout(timeout);
+    
   }, [searchTerm, groupId]);
 
-  const loadMoreMembers = async () => {
+  async function loadMoreMembers(){
     setIsLoadingMembers(true);
     try {
       const response = await fetch(`/api/group/search-for-members`, {
@@ -178,93 +179,10 @@ export default function GroupExpensePage() {
 
   useEffect(() => {
     if (!token || !user) return;
-    async function fetchGroupDetails() {
+    async function fetchAllGroupDetails(){
+      setIsLoading(true);
       try {
-        const response = await fetch(
-          `/api/group/get-group-details/${groupId}`,
-          {
-            method: "GET",
-          }
-        );
-        const data = await response.json();
-        if (!response.ok) {
-          toast({
-            title: data.message,
-            variant: "destructive",
-            duration: 2000,
-          });
-          return;
-        }
-        setGroupDetails(data);
-        setExpenses(data.expenses);
-        return true;
-      } catch (error) {
-        toast({
-          title: "Internal server error!",
-          description: "Please try again later",
-          variant: "destructive",
-          duration: 2000,
-        });
-        return false;
-      }
-    }
-    async function fetchAlreadySentRequests() {
-      try {
-        const response = await fetch(
-          `/api/group/group-request/already-sent-requests/${groupId}`,
-          {
-            method: "GET",
-          }
-        );
-        const data = await response.json();
-        if (!response.ok) {
-          toast({
-            title: data.message,
-            variant: "destructive",
-            duration: 2000,
-          });
-          return;
-        }
-        setAlreadySentRequests(data);
-      } catch (error) {
-        toast({
-          title: "Internal server error!",
-          description: "Please try again later",
-          variant: "destructive",
-          duration: 2000,
-        });
-      }
-    }
-    async function fetchGroupMembers() {
-      try {
-        const response = await fetch(
-          `/api/group/get-group-members/${groupId}`,
-          {
-            method: "GET",
-          }
-        );
-        const data = await response.json();
-        if (!response.ok) {
-          toast({
-            title: data.message,
-            variant: "destructive",
-            duration: 2000,
-          });
-          return;
-        }
-        setGroupMembers(data.members);
-      } catch (error) {
-        toast({
-          title: "Internal server error!",
-          description: "Please try again later",
-          variant: "destructive",
-          duration: 2000,
-        });
-      }
-    }
-    async function fetchGroupExpenses() {
-      try {
-        const response = await fetch(`/api/group/expenses/${groupId}`, {
+        const response = await fetch(`/api/group/get-full-group-info/${groupId}`, {
           method: "GET",
         });
         const data = await response.json();
@@ -273,11 +191,14 @@ export default function GroupExpensePage() {
             title: data.message,
             variant: "destructive",
             duration: 2000,
-          });
+          })
           return;
         }
+        setGroupDetails(data);
+        setExpenses(data.expenses);
+        setAlreadySentRequests(data.groupRequests);
+        setGroupMembers(data.members);
 
-        setExpenses(data.expenses ?? []);
       } catch (error) {
         toast({
           title: "Internal server error!",
@@ -285,16 +206,12 @@ export default function GroupExpensePage() {
           variant: "destructive",
           duration: 2000,
         });
+      } finally {
+        setIsLoading(false);
       }
     }
-    setIsLoading(true);
 
-    Promise.allSettled([
-      fetchGroupDetails(),
-      fetchAlreadySentRequests(),
-      fetchGroupMembers(),
-      fetchGroupExpenses(),
-    ]).finally(() => setIsLoading(false));
+    fetchAllGroupDetails()
   }, [groupId, token, user]);
 
   useEffect(() => {
