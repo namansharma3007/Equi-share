@@ -25,7 +25,15 @@ export default function GroupRequests({
                 <div className="flex items-center space-x-4">
                   <div>
                     <p className="font-semibold">
-                      {request.group.name} [{request.group.members.length}]
+                      {request.group.name}{" "}
+                      {new Date(request.group.createdAt).toLocaleDateString(
+                        "en-GB",
+                        {
+                          day: "numeric",
+                          month: "short",
+                          year: "numeric",
+                        }
+                      )}
                     </p>
                     <p className="text-sm text-gray-600">
                       {request.group.description}
