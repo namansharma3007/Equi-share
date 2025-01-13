@@ -14,7 +14,12 @@ type UpdateObject = {
   username?: string;
   gender?: Gender; // Use the Gender enum type
   email?: string;
+  image?: string;
 };
+
+
+const boyProfilePic = process.env.USER_IMAGE_MALE_URL;
+const girlProfilePic = process.env.USER_IMAGE_FEMALE_URL;
 
 export async function PATCH(req: NextRequest) {
   try {
@@ -86,6 +91,15 @@ export async function PATCH(req: NextRequest) {
       }
     }
 
+    if(gender){
+      if(currentUser.gender !== gender){
+        if(gender === "MALE"){
+          updateObject.image = boyProfilePic + username;
+        } else {
+          updateObject.image = girlProfilePic + username;
+        }
+      }
+    }
     // If no changes are made, return a response
     if (isDataUnchanged) {
       return NextResponse.json(
