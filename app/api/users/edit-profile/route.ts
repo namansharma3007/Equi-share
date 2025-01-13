@@ -107,7 +107,6 @@ export async function PATCH(req: NextRequest) {
       }
     }
 
-    // If no changes are made, return a response
     if (isDataUnchanged) {
       return NextResponse.json(
         { message: "No changes have been made" },
