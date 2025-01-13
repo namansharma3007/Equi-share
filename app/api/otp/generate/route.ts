@@ -72,7 +72,7 @@ export async function POST(req: NextRequest) {
       from: process.env.EMAIL_USER,
       to: email,
       subject: "Your OTP for equi-share",
-      text: `Your OTP is ${otp} for equi-share. Your OTP is only valid for 7 minutes`,
+      text: `Your OTP is ${otp} for equi-share. OTP is only valid for 7 minutes`,
     };
 
     await transporter.sendMail(mailOptions);
