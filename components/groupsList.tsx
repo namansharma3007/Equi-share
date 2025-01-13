@@ -65,7 +65,11 @@ export default function GroupsList({
   user: string | null;
 }) {
   return (
-    <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: 0.2 }}
+    >
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger asChild>
           <Button className="w-full mb-6 bg-purple-600 text-white hover:bg-purple-700">
@@ -119,12 +123,16 @@ export default function GroupsList({
       {groups &&
         groups.map((group) => (
           <Card key={group.id} className="mb-2">
-            <CardHeader className="-mb-4">
+            <CardHeader className="-mb-4 -mt-2">
               <CardTitle className="flex items-center justify-between">
                 <span className="flex items-center gap-2">
-                  {group.name}
+                  {group.name}{" "}({new Date(group.createdAt).toLocaleDateString("en-GB", {
+                      day: "numeric",
+                      month: "short",
+                      year: "numeric",
+                    })})
                   {group.groupAdminId === user ? (
-                    <p className="text-[10px] font-semibold text-white px-1.5 py-1 bg-purple-600 rounded-md">
+                    <p className="text-[12px] font-semibold text-white px-1.5 py-1 bg-purple-600 rounded-md">
                       Admin
                     </p>
                   ) : null}
@@ -138,16 +146,15 @@ export default function GroupsList({
                 </Button>
               </CardTitle>
               <CardDescription className="flex gap-2 flex-col">
-                <div className="flex items-center space-x-2">
-                  <Users className="h-5 w-5" />
-                  <p className="font-medium">
-                    {group.members.length} members{" "}
-                    {new Date(group.createdAt).toLocaleDateString()}
-                  </p>
-                </div>
                 <p className="text-md font-semibold text-gray-800">
                   {group.description}
                 </p>
+                <div className="flex items-center space-x-2">
+                  <Users className="h-5 w-5" />
+                  <p className="font-medium">
+                    {group.members.length} members
+                  </p>
+                </div>
               </CardDescription>
             </CardHeader>
             <CardContent>
