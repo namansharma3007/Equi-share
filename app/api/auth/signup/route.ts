@@ -39,6 +39,21 @@ export async function POST(req: NextRequest) {
       );
     }
 
+    if(username.length < 6) {
+      return NextResponse.json(
+        { message: "Username must be at least 6 characters long" },
+        { status: 400 }
+      );
+    }
+    
+    const spacesRegex = /\s+/;
+    if(spacesRegex.test(username)) {
+      return NextResponse.json(
+        { message: "Username cannot contain spaces" },
+        { status: 400 }
+      );
+    }
+
     const userName = await prisma.user.findFirst({
       where: {
         username: username,
