@@ -34,6 +34,22 @@ export async function POST(req: NextRequest) {
       );
     }
 
+    const groupCount = await prisma.group.count({
+      where: {
+        groupAdminId: userId,
+      },
+    });
+
+    
+    if (groupCount >= 5) {
+      return NextResponse.json(
+        {
+          message: "You can only create upto 5 groups",
+        },
+        { status: 400 }
+      );
+    }
+
     const newGroup = await prisma.$transaction(async (prisma) => {
       const group = await prisma.group.create({
         data: {
