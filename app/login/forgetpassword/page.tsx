@@ -329,6 +329,7 @@ function OTP_INPUT({
                 <InputOTPSlot index={5} />
               </InputOTPGroup>
             </InputOTP>
+            <p className="text-sm text-gray-500">Your OTP is only valid for 7 minutes</p>
             <Button
               type="submit"
               className="w-full bg-purple-600 text-white hover:bg-purple-700"
@@ -336,7 +337,7 @@ function OTP_INPUT({
               Submit
             </Button>
           </form>
-          <div className="flex justify-center mt-2">
+          <div className="flex justify-center mt-1">
             <Button
               className="w-max bg-transparent text-purple-600 shadow-none border-none hover:underline hover:bg-transparent"
               onClick={handleResendOTP}
