@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { jwtVerify } from 'jose';
-import { JwtPayload } from "jsonwebtoken";
+import { type JwtPayload } from "jsonwebtoken";
 
 
 export async function verifyToken(token: string) {

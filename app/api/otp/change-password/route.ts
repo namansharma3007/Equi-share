@@ -1,6 +1,6 @@
 import { NextResponse, NextRequest } from "next/server";
 import prisma from "@/lib/db";
-import jwt, { JwtPayload } from "jsonwebtoken";
+import jwt, { type JwtPayload } from "jsonwebtoken";
 import { hashPassword } from "@/lib/utilities";
 
 const otpsecretkey = process.env.OTP_SECRET;
