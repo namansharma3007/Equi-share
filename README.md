@@ -4,6 +4,10 @@ Live preview of the application: [https://equi-share.vercel.app/](https://equi-s
 
 Equi-Share is a web application that allows users to split bills and manage their expenses. It provides a simple and intuitive interface for users to easily track their expenses and split them among friends. The application is built using Next.js and TypeScript, and utilizes Prisma as the database.
 
+## YouTube Video
+
+[Equi-Share Demo Video](https://youtu.be/csJfQYUv4YU)
+
 ## Features
 
 - User authentication and authorization
