@@ -86,11 +86,11 @@ export default function DialogIsAddingMember({
                         <AvatarImage src={result.image} alt={result.username} />
                         <AvatarFallback>{result.firstName + " " + result.lastName}</AvatarFallback>
                       </Avatar>
-                      <div>
+                      <div className="overflow-hidden w-full">
                         <p className="font-semibold">
                           {result.firstName + " " + result.lastName}
                         </p>
-                        <p className="text-sm text-gray-600">
+                        <p className="text-sm text-gray-600 truncate">
                           @{result.username}
                         </p>
                       </div>

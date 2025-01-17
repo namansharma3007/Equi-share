@@ -99,6 +99,7 @@ export default function GroupExpensePage() {
 
   useEffect(() => {
     async function fetchUsers() {
+      setIsLoadingMembers(true);
       try {
         const response = await fetch(`/api/group/search-for-members`, {
           method: "POST",
@@ -129,6 +130,8 @@ export default function GroupExpensePage() {
           variant: "destructive",
           duration: 2000,
         });
+      } finally{
+        setIsLoadingMembers(false);
       }
     }
 

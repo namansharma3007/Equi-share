@@ -39,9 +39,9 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    if(username.length < 6) {
+    if(username.length < 6 || username.length > 20) {
       return NextResponse.json(
-        { message: "Username must be at least 6 characters long" },
+        { message: "Username must be at least 6 and at most 20 characters long" },
         { status: 400 }
       );
     }
