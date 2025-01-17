@@ -46,6 +46,13 @@ export async function PATCH(req: NextRequest) {
           { status: 400 }
         );
       }
+
+      if(username.length < 3 || username.length > 20) {
+        return NextResponse.json(
+          { message: "Username must be at least 3 and at most 20 characters long" },
+          { status: 400 }
+        );
+      }
     }
 
     // Check if email is already in use by another user
@@ -61,6 +68,7 @@ export async function PATCH(req: NextRequest) {
         );
       }
     }
+
 
     // Create the update object
     const updateObject: UpdateObject = {};
