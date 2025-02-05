@@ -21,7 +21,7 @@ export default function UserProfile({ userData }: { userData: User | null }) {
             <AtSign className="h-6 w-6 text-purple-600" />
             {userData?.username}
           </p>
-          <p className="text-gray-500 flex items-center gap-2 text-xl">
+          <p className="text-gray-500 flex items-center gap-2 text-xl break-all">
             <Mail className="h-6 w-6 text-purple-600" />
             {userData?.email}
           </p>
