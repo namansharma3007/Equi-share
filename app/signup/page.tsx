@@ -38,6 +38,8 @@ type FormData = {
 export default function SignupPage() {
   const router = useRouter();
 
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
   const [formData, setFormData] = useState<FormData>({
     firstName: "",
     lastName: "",
@@ -62,6 +64,7 @@ export default function SignupPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
+    setIsLoading(true);
     try {
       const response = await fetch("/api/auth/signup", {
         method: "POST",
@@ -93,11 +96,18 @@ export default function SignupPage() {
       router.push("/login");
     } catch (error) {
       setError("Internal server error, please try again later!");
+    } finally {
+      setIsLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen bg-purple-100 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-purple-100 flex items-center justify-center p-4 flex-col">
+      {isLoading && (
+        <div className="flex justify-center items-center py-4">
+          <div className="w-9 h-9 rounded-full border-4 border-solid border-purple-500 border-l-gray-200 animate-spin"></div>
+        </div>
+      )}
       <Card className="w-full max-w-md bg-white/90 backdrop-blur-sm">
         <CardHeader className="space-y-1">
           <CardTitle className="text-3xl font-bold text-center text-purple-800">

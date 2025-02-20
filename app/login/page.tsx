@@ -26,6 +26,8 @@ export default function Login() {
   const { setToken, setUserId, setUserData } = useUserContext();
   const router = useRouter();
 
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
   const [formData, setFormData] = useState<FormData>({
     emailusername: "",
     password: "",
@@ -40,6 +42,7 @@ export default function Login() {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError(null);
+    setIsLoading(true);
     try {
       const response = await fetch("/api/auth/login", {
         method: "POST",
@@ -59,9 +62,8 @@ export default function Login() {
       setToken(true);
       setUserId(data.userId);
 
-      
       setError(null);
-      
+
       setFormData((prev) => ({ ...prev, emailusername: "", password: "" }));
 
       toast({
@@ -69,13 +71,15 @@ export default function Login() {
         variant: "success",
         duration: 2000,
       });
-      
+
       router.push("/dashboard");
     } catch (error) {
       setError("Internal server error, please try again later!");
       setToken(false);
       setUserId("");
       setUserData(null);
+    } finally {
+      setIsLoading(false);
     }
   };
   return (
@@ -155,6 +159,11 @@ export default function Login() {
           </CardFooter>
         </motion.div>
       </Card>
+      {isLoading && (
+        <div className="flex justify-center items-center py-4">
+          <div className="w-9 h-9 rounded-full border-4 border-solid border-purple-500 border-l-gray-200 animate-spin"></div>
+        </div>
+      )}
     </div>
   );
 }
