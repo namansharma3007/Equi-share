@@ -32,6 +32,8 @@ export default function ProfilePage() {
   const { user, token, userData, setToken, setUserId, setUserData } =
     useUserContext();
 
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
   const [error, setError] = useState<string | null>(null);
   const [formData, setFormData] = useState<FormData>({
     firstName: "",
@@ -52,6 +54,7 @@ export default function ProfilePage() {
   );
 
   const handleLogout = async () => {
+    setIsLoading(true);
     const result = await handleLogoutFunction();
     if (result) {
       setUserId("");
@@ -71,6 +74,7 @@ export default function ProfilePage() {
         duration: 2000,
       });
     }
+    setIsLoading(false);
   };
 
   useEffect(() => {
@@ -96,7 +100,13 @@ export default function ProfilePage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if(!formData.firstName && !formData.lastName && !formData.username && !formData.email && !formData.gender) {
+    if (
+      !formData.firstName &&
+      !formData.lastName &&
+      !formData.username &&
+      !formData.email &&
+      !formData.gender
+    ) {
       return;
     }
 
@@ -132,7 +142,6 @@ export default function ProfilePage() {
       setTimeout(() => {
         window.location.reload();
       }, 3000);
-
     } catch (error) {
       toast({
         title: "Internal server error!",
@@ -153,13 +162,19 @@ export default function ProfilePage() {
           className="flex items-center justify-between w-full mb-6"
         >
           <h1 className="text-3xl font-bold text-purple-800">Settings</h1>
-          <Button
-            onClick={handleLogout}
-            size="sm"
-            className="w-max border-red-600 bg-red-600 hover:bg-red-700 text-white"
-          >
-            <LogOut className="h-4 w-4" /> Log out
-          </Button>
+          {isLoading ? (
+            <div className="flex justify-center items-center">
+              <div className="w-7 h-7 rounded-full border-4 border-solid border-purple-500 border-l-gray-200 animate-spin"></div>
+            </div>
+          ) : (
+            <Button
+              onClick={handleLogout}
+              size="sm"
+              className="w-max border-red-600 bg-red-600 hover:bg-red-700 text-white"
+            >
+              <LogOut className="h-4 w-4" /> Log out
+            </Button>
+          )}
         </motion.div>
         <motion.div
           initial={{ opacity: 0, y: 20 }}

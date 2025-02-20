@@ -9,11 +9,15 @@ import Link from "next/link";
 import { useUserContext } from "@/context/userProvider";
 import { handleLogoutFunction } from "@/lib/auth";
 import { toast } from "@/hooks/use-toast";
+import { useState } from "react";
 
 export default function WelcomePage() {
   const { setToken, setUserId, userData, setUserData } = useUserContext();
 
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
   const handleLogout = async () => {
+    setIsLoading(true);
     const result = await handleLogoutFunction();
     if (result) {
       setUserId("");
@@ -32,6 +36,7 @@ export default function WelcomePage() {
         duration: 2000,
       });
     }
+    setIsLoading(false);
   };
 
   const cardInfo = [
@@ -58,28 +63,36 @@ export default function WelcomePage() {
     <div className="min-h-screen bg-purple-200 flex flex-col justify-between">
       <header className="p-4 flex justify-end">
         {userData ? (
-          <div className="flex items-center space-x-2">
-            <Avatar className="w-10 h-10 mr-2">
-              <AvatarImage src={userData.image} alt={userData.username} />
-              <AvatarFallback>{userData.username}</AvatarFallback>
-            </Avatar>
-            <Link href="/dashboard">
-              <Button
-                variant="outline"
-                className="mr-2 bg-purple-600 text-white hover:bg-purple-700 hover:text-white"
-              >
-                Dashboard
-                <ArrowRight />
-              </Button>
-            </Link>
-            <Button
-              variant="outline"
-              onClick={handleLogout}
-              className="border-red-600 bg-red-600 hover:bg-red-700 hover:text-white text-white"
-            >
-              <LogOut />
-            </Button>
-          </div>
+          <>
+            {isLoading ? (
+              <div className="flex justify-center items-center mr-2 py-1">
+                <div className="w-7 h-7 rounded-full border-4 border-solid border-purple-500 border-l-gray-200 animate-spin"></div>
+              </div>
+            ) : (
+              <div className="flex items-center space-x-2">
+                <Avatar className="w-10 h-10 mr-2">
+                  <AvatarImage src={userData.image} alt={userData.username} />
+                  <AvatarFallback>{userData.username}</AvatarFallback>
+                </Avatar>
+                <Link href="/dashboard">
+                  <Button
+                    variant="outline"
+                    className="mr-2 bg-purple-600 text-white hover:bg-purple-700 hover:text-white"
+                  >
+                    Dashboard
+                    <ArrowRight />
+                  </Button>
+                </Link>
+                <Button
+                  variant="outline"
+                  onClick={handleLogout}
+                  className="border-red-600 bg-red-600 hover:bg-red-700 hover:text-white text-white"
+                >
+                  <LogOut />
+                </Button>
+              </div>
+            )}
+          </>
         ) : (
           <div className="flex items-center space-x-2">
             <Link href="/login">
@@ -137,7 +150,9 @@ export default function WelcomePage() {
         </div>
       </main>
       <footer className="mt-12 py-6 bg-purple-600 text-white text-center ">
-        <p>&copy; {new Date().getFullYear()} Equi-share. All rights reserved.</p>
+        <p>
+          &copy; {new Date().getFullYear()} Equi-share. All rights reserved.
+        </p>
       </footer>
     </div>
   );
