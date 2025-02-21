@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
-import {motion} from "framer-motion";
+import { motion } from "framer-motion";
 import {
   Select,
   SelectContent,
@@ -19,6 +19,7 @@ export default function EditProfile({
   handleSelectChange,
   placeholderValues,
   formData,
+  editingUserLoading,
 }: {
   error: string | null;
   handleSubmit: (e: React.FormEvent) => Promise<void>;
@@ -26,6 +27,7 @@ export default function EditProfile({
   handleSelectChange: (value: string) => void;
   placeholderValues: PlaceholderValues;
   formData: FormData;
+  editingUserLoading: boolean;
 }) {
   return (
     <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
@@ -36,6 +38,11 @@ export default function EditProfile({
               <p className="text-gray-100 text-sm font-medium text-center">
                 {error}
               </p>
+            </div>
+          )}
+          {editingUserLoading && (
+            <div className="flex justify-center items-center mr-2 mt-2 py-1">
+              <div className="w-7 h-7 rounded-full border-4 border-solid border-purple-500 border-l-gray-200 animate-spin"></div>
             </div>
           )}
           <form onSubmit={handleSubmit} className="space-y-4 mt-1">

@@ -12,7 +12,8 @@ import { toast } from "@/hooks/use-toast";
 import { useState } from "react";
 
 export default function WelcomePage() {
-  const { setToken, setUserId, userData, setUserData } = useUserContext();
+  const { setToken, setUserId, userData, setUserData, sessionLoading } =
+    useUserContext();
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -62,37 +63,33 @@ export default function WelcomePage() {
   return (
     <div className="min-h-screen bg-purple-200 flex flex-col justify-between">
       <header className="p-4 flex justify-end">
-        {userData ? (
-          <>
-            {isLoading ? (
-              <div className="flex justify-center items-center mr-2 py-1">
-                <div className="w-7 h-7 rounded-full border-4 border-solid border-purple-500 border-l-gray-200 animate-spin"></div>
-              </div>
-            ) : (
-              <div className="flex items-center space-x-2">
-                <Avatar className="w-10 h-10 mr-2">
-                  <AvatarImage src={userData.image} alt={userData.username} />
-                  <AvatarFallback>{userData.username}</AvatarFallback>
-                </Avatar>
-                <Link href="/dashboard">
-                  <Button
-                    variant="outline"
-                    className="mr-2 bg-purple-600 text-white hover:bg-purple-700 hover:text-white"
-                  >
-                    Dashboard
-                    <ArrowRight />
-                  </Button>
-                </Link>
-                <Button
-                  variant="outline"
-                  onClick={handleLogout}
-                  className="border-red-600 bg-red-600 hover:bg-red-700 hover:text-white text-white"
-                >
-                  <LogOut />
-                </Button>
-              </div>
-            )}
-          </>
+        {(sessionLoading || isLoading) ? (
+          <div className="flex justify-center items-center mr-2 py-1">
+            <div className="w-7 h-7 rounded-full border-4 border-solid border-purple-500 border-l-gray-200 animate-spin"></div>
+          </div>
+        ) : userData ? (
+          <div className="flex items-center space-x-2">
+            <Avatar className="w-10 h-10 mr-2">
+              <AvatarImage src={userData.image} alt={userData.username} />
+              <AvatarFallback>{userData.username}</AvatarFallback>
+            </Avatar>
+            <Link href="/dashboard">
+              <Button
+                variant="outline"
+                className="mr-2 bg-purple-600 text-white hover:bg-purple-700 hover:text-white"
+              >
+                Dashboard
+                <ArrowRight />
+              </Button>
+            </Link>
+            <Button
+              variant="outline"
+              onClick={handleLogout}
+              className="border-red-600 bg-red-600 hover:bg-red-700 hover:text-white text-white"
+            >
+              <LogOut />
+            </Button>
+          </div>
         ) : (
           <div className="flex items-center space-x-2">
             <Link href="/login">

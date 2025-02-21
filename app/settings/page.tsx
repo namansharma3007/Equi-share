@@ -33,6 +33,7 @@ export default function ProfilePage() {
     useUserContext();
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [editingUserLoading, setEditingUserLoading] = useState<boolean>(false);
 
   const [error, setError] = useState<string | null>(null);
   const [formData, setFormData] = useState<FormData>({
@@ -109,7 +110,7 @@ export default function ProfilePage() {
     ) {
       return;
     }
-
+    setEditingUserLoading(true);
     try {
       const response = await fetch("/api/users/edit-profile", {
         method: "PATCH",
@@ -139,6 +140,7 @@ export default function ProfilePage() {
         gender: "",
       }));
 
+      setEditingUserLoading(false);
       setTimeout(() => {
         window.location.reload();
       }, 3000);
@@ -149,6 +151,8 @@ export default function ProfilePage() {
         variant: "destructive",
         duration: 2000,
       });
+    } finally {
+      setEditingUserLoading(false);
     }
   };
 
@@ -209,6 +213,7 @@ export default function ProfilePage() {
                 handleSelectChange={handleSelectChange}
                 placeholderValues={placeholderValues}
                 formData={formData}
+                editingUserLoading={editingUserLoading}
               />
             </TabsContent>
           </Tabs>

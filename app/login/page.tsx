@@ -91,6 +91,11 @@ export default function Login() {
           </p>
         </div>
       )}
+      {isLoading && (
+        <div className="flex justify-center items-center py-4">
+          <div className="w-9 h-9 rounded-full border-4 border-solid border-purple-500 border-l-gray-200 animate-spin"></div>
+        </div>
+      )}
       <Card className="w-full max-w-md">
         <CardHeader>
           <CardTitle className="text-3xl font-bold text-center text-purple-800">
@@ -159,11 +164,6 @@ export default function Login() {
           </CardFooter>
         </motion.div>
       </Card>
-      {isLoading && (
-        <div className="flex justify-center items-center py-4">
-          <div className="w-9 h-9 rounded-full border-4 border-solid border-purple-500 border-l-gray-200 animate-spin"></div>
-        </div>
-      )}
     </div>
   );
 }

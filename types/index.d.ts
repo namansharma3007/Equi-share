@@ -80,6 +80,7 @@ interface Split {
 interface UserContextType {
   user: string;
   token: boolean;
+  sessionLoading: boolean;
   userData: User | null;
   setToken: (token: boolean) => void;
   setUserId: (userId: string) => void;

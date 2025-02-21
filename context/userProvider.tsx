@@ -9,8 +9,10 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
   const [token, setToken] = useState<boolean>(false);
   const [user, setUserId] = useState<string>("");
   const [userData, setUserData] = useState<User | null>(null);
+  const [sessionLoading, setSessionLoading] = useState<boolean>(false);
 
   useEffect(() => {
+    setSessionLoading(true);
     checkUserSession()
       .then((data) => {
         if (data) {
@@ -24,7 +26,7 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
       .catch((error) => {
         setToken(false);
         setUserId("");
-      });
+      }).finally(() => setSessionLoading(false));
   }, []);
 
   useEffect(() => {
@@ -43,7 +45,7 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
 
   return (
     <UserContext.Provider
-      value={{ token, user, setToken, setUserId, userData, setUserData }}
+      value={{ token, user, setToken, setUserId, userData, setUserData, sessionLoading }}
     >
       {children}
     </UserContext.Provider>
