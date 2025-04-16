@@ -10,10 +10,28 @@ import { useUserContext } from "@/context/userProvider";
 import { handleLogoutFunction } from "@/lib/auth";
 import { toast } from "@/hooks/use-toast";
 import { useState } from "react";
+import { Github, Twitter, Linkedin } from "lucide-react";
+
+const links = [
+  {
+    icon: <Twitter size={18} />,
+    link: "https://x.com/_namansharma_07",
+    title: "Twitter",
+  },
+  {
+    icon: <Linkedin size={18} />,
+    link: "https://www.linkedin.com/in/naman-sharma-b46950226/",
+    title: "LinkedIn",
+  },
+  {
+    icon: <Github size={18} />,
+    link: "https://github.com/namansharma3007/Equi-share",
+    title: "GitHub",
+  },
+];
 
 export default function WelcomePage() {
-  const { setToken, setUserId, userData, setUserData, sessionLoading } =
-    useUserContext();
+  const { setToken, setUserId, userData, setUserData, sessionLoading } = useUserContext();
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -146,10 +164,21 @@ export default function WelcomePage() {
           ))}
         </div>
       </main>
-      <footer className="mt-12 py-6 bg-purple-600 text-white text-center ">
+      <footer className="mt-12 py-6 bg-purple-600 text-white gap-2 flex items-center justify-center flex-col">
         <p>
           &copy; {new Date().getFullYear()} Equi-share. All rights reserved.
         </p>
+        <div className="flex items-center justify-center gap-2">
+          {
+            links.map((link, index) => (
+              <div key={index} title={link.title} className="cursor-pointer bg-white rounded-full text-purple-600 p-2 hover:scale-110 duration-100 ease-in-ouy">
+                <a href={link.link} target="_blank" rel="noreferrer">
+                  {link.icon}
+                </a>
+              </div>
+            ))
+          }
+        </div>
       </footer>
     </div>
   );
